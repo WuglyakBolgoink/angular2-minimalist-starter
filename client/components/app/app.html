@@ -13,7 +13,10 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="main_navbar">
       <ul class="nav navbar-nav">
-        <li><a [router-link]="['/Contact']">Contacts</a></li>
+        <li><a [router-link]="['/Contact']">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><button class="btn btn-link" (click)="login()">Login</a></li>        
       </ul>
     </div>
   </div>
@@ -22,3 +25,4 @@
 <section class="container-fluid">
   <router-outlet></router-outlet>
 </section>
+

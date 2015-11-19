@@ -1,9 +1,19 @@
-export interface Contact {
+export interface BaseDto {
   _id?: any;
-  email?: string;
-  name?: string;
-  industry?: any;
   createdBy?: any;
   createdAt?: number;
   updatedAt?: number;
+}
+
+export interface Contact extends BaseDto {
+  email?: string;
+  name?: string;
+  website?: string;
+  industry?: any;
+  city?: any;
+}
+
+export interface Notification {
+  type: string;
+  data?: any;
 }

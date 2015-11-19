@@ -1,30 +1,31 @@
 import {COMMON_DIRECTIVES, COMMON_PIPES, Component, Validators,
-  ControlGroup, Control, Observable} from 'angular2/angular2';
+ControlGroup, Control, Observable} from 'angular2/angular2';
+import * as Rx from '@reactivex/rxjs/dist/cjs/Rx';
 
 import {validateEmail} from '../../core/web_util';
 import {Contact} from '../../core/dto';
 import {ContactService} from './contact_service';
 import {Autofocus} from '../../directives/Autofocus';
-import {CustomOrderByPipe} from '../../pipes/CustomOrderByPipe';
 
 @Component({
   selector: 'contact',
   templateUrl: './components/contact/contact.html',
   directives: [COMMON_DIRECTIVES, Autofocus],
-  pipes: [COMMON_PIPES, CustomOrderByPipe],
+  pipes: [COMMON_PIPES],
   viewProviders: [ContactService]
 })
 export class ContactCmp {
 
   form: ControlGroup;
   contacts: Contact[];
+  contact: Contact = {};
 
   constructor(private contactService: ContactService) {
 
     this.form = new ControlGroup({
-      _id: new Control(null),
-      name: new Control(null, Validators.required),
-      email: new Control(null, validateEmail)
+      _id: new Control(''),
+      name: new Control('', Validators.required),
+      email: new Control('', validateEmail)
     });
 
     this.find();
@@ -32,14 +33,12 @@ export class ContactCmp {
 
   saveOne() {
 
-    const data: Contact = this.form.value;
-
     let obs: Observable<Contact>;
 
-    if (data._id) {
-      obs = this.contactService.updateOne(data);
+    if (this.contact._id) {
+      obs = this.contactService.updateOne(this.contact);
     } else {
-      obs = this.contactService.createOne(data);
+      obs = this.contactService.createOne(this.contact);
     }
 
     obs.subscribe((res: Contact) => {
@@ -59,24 +58,21 @@ export class ContactCmp {
       });
   }
 
-  selectOne(data: Contact) {
-    this.contactService.findOneById(data._id)
+  selectOne(id: string) {
+    this.contactService.findOneById(id)
       .subscribe((res: Contact) => {
         this.resetForm(res);
       });
   }
 
   find() {
-    this.contactService.find()
-      .subscribe((res: Contact[]) => {
-        this.contacts = res;
-      });
+    this.contactService.find().subscribe((res: Contact[]) => {
+      this.contacts = res;
+    });
   }
 
   resetForm(data: Contact = {}) {
-    for (let prop in this.form.controls) {
-      (<Control>this.form.controls[prop]).updateValue(data[prop]);
-    }
+    this.contact = data;
   }
 
 }

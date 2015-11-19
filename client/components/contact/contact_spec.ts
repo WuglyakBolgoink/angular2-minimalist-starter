@@ -1,4 +1,4 @@
-import {provide, Injector, Observable} from 'angular2/angular2';
+import {provide, Observable, Injector} from 'angular2/angular2';
 import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
   ResponseOptions, RequestMethods
 } from 'angular2/http';
@@ -7,6 +7,7 @@ import {TestComponentBuilder, describe, expect, inject, injectAsync, it,
 } from 'angular2/testing';
 
 import {ObjectUtil} from '../../core/util';
+import {HttpClient} from '../../core/http_client';
 import {Contact} from '../../core/dto';
 import {ContactCmp} from './contact';
 import {ContactService} from './contact_service';
@@ -15,9 +16,9 @@ import {contacts, buildContact} from './contact_mock';
 
 export function main() {
 
-  describe('ContactCmp', () => {
+  describe('Contact component', () => {
 
-    it('crud should work', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    it('should work', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
       return tcb.overrideViewProviders(ContactCmp, [provide(ContactService, { useClass: ContactServiceMock })])
         .createAsync(ContactCmp).then((fixture) => {
 
@@ -51,11 +52,11 @@ export function main() {
 
           expect(obtainContactsLenght()).toBe(newLength);
 
-          contactCmp.selectOne(existingContact);
+          contactCmp.selectOne(existingContact._id);
 
           fixture.detectChanges();
 
-          const selectedContact = contactCmp.form.value;
+          const selectedContact = contactCmp.contact;
 
           expect(selectedContact._id).toBe(existingContact._id);
           expect(selectedContact.name).toBe(existingContact.name);
@@ -72,17 +73,19 @@ export function main() {
 
   });
 
+
   class ContactServiceMock {
 
     createOne(data: Contact): Observable<Contact> {
       const contact = buildContact(data);
       contacts.push(contact);
-      return Observable.from([contact]);
+      return Observable.of(contact);
     }
 
     updateOne(data: Contact): Observable<Contact> {
       return this.findOneById(data._id).map((contact: Contact) => {
         ObjectUtil.merge(contact, data);
+        contact.updatedAt = Date.now();
         return contact;
       });
     }
@@ -90,17 +93,17 @@ export function main() {
     removeOneById(id: string): Observable<Contact> {
       const index = this._findIndex(id);
       const removed = contacts.splice(index, 1);
-      return Observable.from(removed);
+      return Observable.of(removed);
     }
 
     find(): Observable<Contact[]> {
-      return Observable.from([contacts]);
+      return Observable.of(contacts);
     }
 
     findOneById(id: string): Observable<Contact> {
       const index = this._findIndex(id);
       const contact = contacts[index];
-      return Observable.from([contact]);
+      return Observable.of(contact);
     }
 
     private _findIndex(id: string): number {

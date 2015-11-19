@@ -8,33 +8,28 @@ const pkg = JSON.parse(fs.readFileSync(`${CWD}/package.json`, 'utf8'));
 
 // --------------
 // Configuration.
-export const ENV: string = argv['env'] || process.env.profile || 'dev';
-export const DEBUG: boolean = argv['debug'] || false;
+const ENV: string = argv['env'] || process.env.profile || 'dev';
+process.env.profile = ENV;
+
 export const PORT: number = argv['port'] || 5555;
 export const LIVE_RELOAD_PORT: number = argv['reload-port'] || 4002;
 export const APP_BASE: string = argv['base'] || '/';
+export const APP_VERSION: string = pkg.version;
 
 const CLIENT_SRC_BASE = 'client';
 const CLIENT_DEST_BASE = 'dist';
-export const ANGULAR_BUNDLES = './node_modules/angular2/bundles';
-export const APP_VERSION: string = pkg.version;
+const ANGULAR_BUNDLES = './node_modules/angular2/bundles';
 
 
 export const PATH = {
   cwd: CWD,
-  tools: 'tools',
-  dest: {
-    base: CLIENT_DEST_BASE,
-    dev: {
-      base: `${CLIENT_DEST_BASE}/${ENV}`,
-      lib: `${CLIENT_DEST_BASE}/${ENV}/lib`,
-      css: `${CLIENT_DEST_BASE}/${ENV}/css`,
-      font: `${CLIENT_DEST_BASE}/${ENV}/fonts`,
-      component: `${CLIENT_DEST_BASE}/${ENV}/components`
-    },
-    test: 'test',
-    tmp: '.tmp'
-  },
+  jslint: [
+    `${CLIENT_SRC_BASE}/**/*.ts`,
+    `${CWD}/server/**/*.ts`,
+    `tools/**/*.ts`,
+    `!tools/typings/**`,
+    `${CWD}/gulpfile.ts`
+  ],  
   src: {
     base: CLIENT_SRC_BASE,
     jslib_inject: [
@@ -70,7 +65,18 @@ export const PATH = {
       `${CLIENT_SRC_BASE}/components/**/*.css`,
     ],
     ts: [`${CLIENT_SRC_BASE}/**/*.ts`, `!${CLIENT_SRC_BASE}/**/*_spec.ts`]
-  }
+  },
+  dest: {
+    app: {
+      base: CLIENT_DEST_BASE,
+      lib: `${CLIENT_DEST_BASE}/lib`,
+      css: `${CLIENT_DEST_BASE}/css`,
+      font: `${CLIENT_DEST_BASE}/fonts`,
+      component: `${CLIENT_DEST_BASE}/components`
+    },
+    test: 'test',
+    tmp: '.tmp'
+  } 
 };
 
 

@@ -19,7 +19,7 @@
         "./server/**/*.ts",
         "./gulpfile.ts",
         "./tools/**/*.ts",
-        "!./tools/typings/tsd/**",
+        "./tools/typings/*.d.ts",
         "./tools/typings/tsd/tsd.d.ts",
         "!./dist/**",        
         "!./test/**",        
