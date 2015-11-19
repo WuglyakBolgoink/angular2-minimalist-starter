@@ -3,7 +3,6 @@ import * as del from 'del';
 import * as runSequence from 'run-sequence';
 import * as plumber from 'gulp-plumber';
 import * as typescript from 'gulp-typescript';
-import * as sass from 'gulp-sass';
 import * as inject from 'gulp-inject';
 import * as template from 'gulp-template';
 import * as tslint from 'gulp-tslint';
@@ -53,15 +52,14 @@ gulp.task('font.build.dev', () =>
     .pipe(gulp.dest(PATH.dest.dev.font))
 );
 
-gulp.task('sass.build.dev', () =>
-  gulp.src(`${PATH.src.base}/**/*.scss`)
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(PATH.src.base))
+gulp.task('css.build.dev', () =>
+  gulp.src(PATH.src.css)
+    .pipe(gulp.dest(PATH.dest.dev.component))
 );
 
-gulp.task('sass.build.watch', () =>
-  gulp.watch(`${PATH.src.base}/**/*.scss`, (evt) =>
-    runSequence('sass.build.dev', () => notifyLiveReload([evt.path]))
+gulp.task('css.build.watch', () =>
+  gulp.watch(PATH.src.css, (evt) =>
+    runSequence('css.build.dev', () => notifyLiveReload([evt.path]))
   )
 );
 
@@ -116,7 +114,7 @@ gulp.task('build.dev', (done: gulp.TaskCallback) =>
     [
       'tslint',
       'jslib.build.dev',
-      'sass.build.dev',
+      'css.build.dev',
       'js.client.build.dev',
       'tpl.build.dev',
       'csslib.build.dev',
@@ -154,13 +152,13 @@ gulp.task('serve.watch', [
   'js.client.watch',
   'index.build.watch',
   'tpl.build.watch',
-  'sass.build.dev'
+  'css.build.dev'
 ]);
 
 // --------------
 // Test.
 gulp.task('test.build', () => {
-  const src = [`${PATH.src.base}/**/*.ts`, `shared/**/*.ts`, `!${PATH.src.base}/bootstrap.ts`];
+  const src = [`${PATH.src.base}/**/*.ts`, `!${PATH.src.base}/bootstrap.ts`];
   return compileTs(src, PATH.dest.test, true);
 });
 

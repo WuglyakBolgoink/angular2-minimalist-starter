@@ -66,6 +66,9 @@ export const PATH = {
     tpl: [
       `${CLIENT_SRC_BASE}/components/**/*.html`,
     ],
+    css: [
+      `${CLIENT_SRC_BASE}/components/**/*.css`,
+    ],
     ts: [`${CLIENT_SRC_BASE}/**/*.ts`, `!${CLIENT_SRC_BASE}/**/*_spec.ts`]
   }
 };
