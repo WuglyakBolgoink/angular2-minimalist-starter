@@ -1,5 +1,6 @@
 import * as gulp from 'gulp';
 import * as del from 'del';
+import * as path from 'path';
 import * as runSequence from 'run-sequence';
 import * as plumber from 'gulp-plumber';
 import * as typescript from 'gulp-typescript';
@@ -13,16 +14,24 @@ import * as nodemon from 'gulp-nodemon';
 import {Server} from 'karma';
 import * as ts from 'gulp-typescript';
 import * as sourcemaps from 'gulp-sourcemaps';
+import * as tinylrFn from 'tiny-lr';
 
-import {PATH} from './tools/config';
-import {notifyLiveReload} from './tools/tasks-tools';
+import {PATH, LIVE_RELOAD_PORT, APP_BASE, APP_VERSION} from './tools/config';
 
-import {
-injectableAssetsRef,
-transformPath,
-templateLocals
-} from './tools/tasks-tools';
+const JSLIB_SRC: string[] = PATH.src.jslib.concat(PATH.src.jslib_copy_only);
 
+export const templateLocals = {
+  APP_VERSION,
+  APP_BASE
+};
+
+const tinylr = tinylrFn();
+
+export function notifyLiveReload(changedFiles: string[]) {
+  tinylr.changed({
+    body: { files: changedFiles }
+  });
+}
 
 const tsProject = ts.createProject('tsconfig.json');
 
@@ -44,20 +53,14 @@ function compileJs(src: string | string[], dest: string, inlineTpl?: boolean): N
 function lintJs(src: string | string[]) {
   return gulp.src(src)
     .pipe(jslint())
-    .pipe(jslint.report(jslintStylish, {
-      emitError: false,
-      configuration: {
-        sort: true,
-        bell: true
-      }
-    }));
+    .pipe(jslint.report(jslintStylish));
 }
 
 // --------------
 // Client.
 gulp.task('csslib.build', () =>
   gulp.src(PATH.src.csslib)
-    .pipe(gulp.dest(PATH.dest.app.css))
+    .pipe(gulp.dest(PATH.dest.app.lib))
 );
 
 gulp.task('font.build', () =>
@@ -66,10 +69,18 @@ gulp.task('font.build', () =>
 );
 
 gulp.task('jslib.build', () => {
-  const src: string[] = PATH.src.jslib_inject.concat(PATH.src.jslib_copy_only);
-  return gulp.src(src)
+  const jslibSrc = gulp.src(JSLIB_SRC)
     .pipe(gulp.dest(PATH.dest.app.lib));
+  const srcRxjs = gulp.src('node_modules/rxjs/**/*')
+    .pipe(gulp.dest(PATH.dest.app.lib + '/rxjs'));
+  return [jslibSrc, srcRxjs];
 });
+
+gulp.task('jslib.watch', ['jslib.build'], () =>
+  gulp.watch(JSLIB_SRC, (evt) =>
+    runSequence('jslib.build', () => notifyLiveReload([evt.path]))
+  )
+);
 
 gulp.task('css.build', () =>
   gulp.src(PATH.src.css)
@@ -105,12 +116,35 @@ gulp.task('js.watch', ['js.build'], () =>
 
 gulp.task('index.build', () => {
 
-  const INDEX_INJECTABLES = injectableAssetsRef();
-  const INDEX_INJECTABLES_TARGET = gulp.src(INDEX_INJECTABLES, { read: false });
+  const MAP_REGEXP = /(\.map)$/;
+
+  function filterNoMap(paths: string[]): string[] {
+    return paths.filter(path => !MAP_REGEXP.test(path));
+  }
+
+  function transformPath (filepath: string) {
+    arguments[0] = 'lib/' + path.basename(filepath);
+    return inject.transform.apply(inject.transform, arguments);
+  }
+
+  const JSLIB_INJECTABLES_TARGET = gulp.src(filterNoMap(PATH.src.jslib));
+  const CSSLIB_INJECTABLES_TARGET = gulp.src(filterNoMap(PATH.src.csslib));
+  const CSS = gulp.src(filterNoMap(PATH.src.css));
 
   return gulp.src(PATH.src.index)
-    .pipe(inject(INDEX_INJECTABLES_TARGET, {
-      transform: transformPath()
+    .pipe(inject(CSSLIB_INJECTABLES_TARGET, {
+      name: 'csslib',
+      transform: transformPath
+    }))
+    .pipe(inject(JSLIB_INJECTABLES_TARGET, {
+      name: 'jslib',
+      transform: transformPath
+    }))
+    .pipe(inject(CSS, {
+      transform: function(filepath: string) {
+        arguments[0] = filepath.replace(`/${PATH.src.base}/`, '');
+        return inject.transform.apply(inject.transform, arguments);
+      }
     }))
     .pipe(template(templateLocals))
     .pipe(gulp.dest(PATH.dest.app.base));
@@ -142,7 +176,7 @@ gulp.task('build.watch', ['dist.clean'], (done: gulp.TaskCallback) =>
     [
       'csslib.build',
       'font.build',
-      'jslib.build',
+      'jslib.watch',
       'css.watch',
       'tpl.watch',
       'jslint.watch',
@@ -155,6 +189,7 @@ gulp.task('build.watch', ['dist.clean'], (done: gulp.TaskCallback) =>
 // --------------
 // Serve.
 gulp.task('server.watch', () => {
+
   nodemon({
     script: 'server/bootstrap.ts',
     watch: 'server',
@@ -166,6 +201,8 @@ gulp.task('server.watch', () => {
   }).on('restart', () => {
     process.env.RESTART = true;
   });
+
+  tinylr.listen(LIVE_RELOAD_PORT);
 });
 
 gulp.task('serve', (done: gulp.TaskCallback) =>

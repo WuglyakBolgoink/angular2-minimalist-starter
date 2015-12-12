@@ -1,8 +1,6 @@
 import * as argv from 'yargs';
 import * as fs from 'fs';
 
-const resolve = require.resolve;
-
 const CWD = process.cwd();
 const pkg = JSON.parse(fs.readFileSync(`${CWD}/package.json`, 'utf8'));
 
@@ -29,33 +27,33 @@ export const PATH = {
     `tools/**/*.ts`,
     `!tools/typings/**`,
     `${CWD}/gulpfile.ts`
-  ],  
+  ],
   src: {
     base: CLIENT_SRC_BASE,
-    jslib_inject: [
+    jslib: [
       // Order is quite important here for the HTML tag injection.
-      resolve('es6-shim/es6-shim.min.js'),
-      resolve('es6-shim/es6-shim.map'),
-      resolve('systemjs/dist/system.src.js'),
+      'node_modules/es6-shim/es6-shim.min.js',
+      'node_modules/es6-shim/es6-shim.map',
+      'node_modules/systemjs/dist/system.src.js',
       `${CLIENT_SRC_BASE}/system.config.js`,
       `${ANGULAR_BUNDLES}/angular2.dev.js`,
       `${ANGULAR_BUNDLES}/router.dev.js`,
       `${ANGULAR_BUNDLES}/http.dev.js`
     ],
     jslib_copy_only: [
-      resolve('systemjs/dist/system-polyfills.js'),
-      resolve('systemjs/dist/system-polyfills.js.map')
+      'node_modules/systemjs/dist/system-polyfills.js',
+      'node_modules/systemjs/dist/system-polyfills.js.map'
     ],
     csslib: [
-      resolve('bootstrap/dist/css/bootstrap.min.css'),
-      resolve('bootstrap/dist/css/bootstrap.css.map')
+      'node_modules/bootstrap/dist/css/bootstrap.min.css',
+      'node_modules/bootstrap/dist/css/bootstrap.css.map'
     ],
     font: [
-      resolve('bootstrap/dist/fonts/glyphicons-halflings-regular.eot'),
-      resolve('bootstrap/dist/fonts/glyphicons-halflings-regular.svg'),
-      resolve('bootstrap/dist/fonts/glyphicons-halflings-regular.ttf'),
-      resolve('bootstrap/dist/fonts/glyphicons-halflings-regular.woff'),
-      resolve('bootstrap/dist/fonts/glyphicons-halflings-regular.woff2')
+      'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.eot',
+      'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.svg',
+      'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
+      'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
+      'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2'
     ],
     index: `${CLIENT_SRC_BASE}/index.html`,
     tpl: [
@@ -70,13 +68,12 @@ export const PATH = {
     app: {
       base: CLIENT_DEST_BASE,
       lib: `${CLIENT_DEST_BASE}/lib`,
-      css: `${CLIENT_DEST_BASE}/css`,
       font: `${CLIENT_DEST_BASE}/fonts`,
       component: `${CLIENT_DEST_BASE}/components`
     },
     test: 'test',
     tmp: '.tmp'
-  } 
+  }
 };
 
 

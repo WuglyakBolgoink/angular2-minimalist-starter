@@ -8,15 +8,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a [router-link]="['/Home']" class="navbar-brand">Home</a>
+      <a [routerLink]="['/Home']" class="navbar-brand">Home</a>
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="main_navbar">
       <ul class="nav navbar-nav">
-        <li><a [router-link]="['/Contact']">Contact</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><button class="btn btn-link" (click)="login()">Login</a></li>        
+        <li><a [routerLink]="['/Contact']">Contact</a></li>
       </ul>
     </div>
   </div>

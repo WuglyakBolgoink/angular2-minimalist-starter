@@ -2,7 +2,6 @@ import * as connectLivereload from 'connect-livereload';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as openResource from 'open';
-import * as serveStatic from 'serve-static';
 import {resolve} from 'path';
 
 import {APP_BASE, LIVE_RELOAD_PORT, PATH, PORT} from '../tools/config';
@@ -14,22 +13,24 @@ const server = express();
 
 server.use(
   APP_BASE,
-  connectLivereload({ port: LIVE_RELOAD_PORT }),
-  serveStatic(resolve(PATH.cwd, PATH.dest.app.base))
+  connectLivereload({ port: LIVE_RELOAD_PORT })
 );
+
+server.use(express.static(PATH.dest.app.base));
+//server.use('/node_modules', express.static('node_modules'));
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: false }));
 
 server.use('/api/contact', contactRouter);
 
-server.all(APP_BASE + '*', (req, res) =>
+server.get(APP_BASE + '*', (req, res) =>
   res.sendFile(INDEX_DEST_PATH)
 );
 
 server.listen(PORT, () => {
   const url = 'http://localhost:' + PORT + APP_BASE;
-  if (process.env.RESTART) {     
+  if (process.env.RESTART) {
     console.log('Server restarted at: ', url);
   } else {
     openResource(url);

@@ -1,6 +1,6 @@
 import {provide, Observable, Injector} from 'angular2/angular2';
-import {BaseRequestOptions, ConnectionBackend, Http, MockBackend, Response,
-  ResponseOptions, RequestMethods
+import {BaseRequestOptions, ConnectionBackend, Http, Response,
+  ResponseOptions
 } from 'angular2/http';
 import {TestComponentBuilder, describe, expect, inject, injectAsync, it,
   beforeEachProviders

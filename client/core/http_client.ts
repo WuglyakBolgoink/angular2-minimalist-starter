@@ -1,7 +1,7 @@
-import {Injectable, Observable} from 'angular2/angular2';
+import {Injectable, Observable, EventEmitter} from 'angular2/angular2';
 import {Http, RequestOptionsArgs, Response} from 'angular2/http';
-
-import * as Rx from '@reactivex/rxjs/dist/cjs/Rx';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 
 import {Notification} from './dto';
 
@@ -9,7 +9,7 @@ import {Notification} from './dto';
 @Injectable()
 export class HttpClient {
 
-	requestNotifier = new Rx.Subject();
+	requestNotifier = new EventEmitter();
 
 	constructor(private http: Http) {
 	}
@@ -72,7 +72,7 @@ export class HttpClient {
   }
 
 	private _notify(data: Notification) {
-		this.requestNotifier.next(data);
+		this.requestNotifier.emit(data);
 	}
 
 	// TODO remove this function once the angular2's http provider throw errors accordingly to http codes.
