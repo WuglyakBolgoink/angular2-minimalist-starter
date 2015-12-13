@@ -17,7 +17,6 @@ server.use(
 );
 
 server.use(express.static(PATH.dest.app.base));
-//server.use('/node_modules', express.static('node_modules'));
 
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: false }));
