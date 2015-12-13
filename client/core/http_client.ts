@@ -1,10 +1,7 @@
 import {Injectable, EventEmitter} from 'angular2/core';
 import {Http, RequestOptionsArgs, Response} from 'angular2/http';
 
-import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
-//import 'rxjs/add/operator/map';
-//import 'rxjs/add/operator/do';
 
 import {Notification} from './dto';
 
