@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as runSequence from 'run-sequence';
 import * as plumber from 'gulp-plumber';
 import * as typescript from 'gulp-typescript';
+import * as rename from 'gulp-rename';
 import * as inject from 'gulp-inject';
 import * as template from 'gulp-template';
 import * as jslint from 'gulp-tslint';
@@ -16,9 +17,7 @@ import * as ts from 'gulp-typescript';
 import * as sourcemaps from 'gulp-sourcemaps';
 import * as tinylrFn from 'tiny-lr';
 
-import {PATH, LIVE_RELOAD_PORT, APP_BASE, APP_VERSION} from './tools/config';
-
-const JSLIB_SRC: string[] = PATH.src.jslib.concat(PATH.src.jslib_copy_only);
+import {PATH, LIVE_RELOAD_PORT, APP_BASE, APP_VERSION, DEPS_SRC} from './tools/config';
 
 export const templateLocals = {
   APP_VERSION,
@@ -58,26 +57,22 @@ function lintJs(src: string | string[]) {
 
 // --------------
 // Client.
-gulp.task('csslib.build', () =>
-  gulp.src(PATH.src.csslib)
-    .pipe(gulp.dest(PATH.dest.app.lib))
-);
-
 gulp.task('font.build', () =>
   gulp.src(PATH.src.font)
     .pipe(gulp.dest(PATH.dest.app.font))
 );
 
 gulp.task('jslib.build', () => {
-  const jslibSrc = gulp.src(JSLIB_SRC)
+  const jslibSrc = gulp.src(DEPS_SRC)
     .pipe(gulp.dest(PATH.dest.app.lib));
   const srcRxjs = gulp.src('node_modules/rxjs/**/*')
     .pipe(gulp.dest(PATH.dest.app.lib + '/rxjs'));
   return [jslibSrc, srcRxjs];
 });
 
+
 gulp.task('jslib.watch', ['jslib.build'], () =>
-  gulp.watch(JSLIB_SRC, (evt) =>
+  gulp.watch(DEPS_SRC, (evt) =>
     runSequence('jslib.build', () => notifyLiveReload([evt.path]))
   )
 );
@@ -116,35 +111,24 @@ gulp.task('js.watch', ['js.build'], () =>
 
 gulp.task('index.build', () => {
 
-  const MAP_REGEXP = /(\.map)$/;
+  const rDistPath = new RegExp(`^/${PATH.dest.app.base}`);
 
-  function filterNoMap(paths: string[]): string[] {
-    return paths.filter(path => !MAP_REGEXP.test(path));
-  }
-
-  function transformPath (filepath: string) {
-    arguments[0] = 'lib/' + path.basename(filepath);
+  function transformPath(filepath: string): string {
+    arguments[0] = filepath.replace(rDistPath, '');
     return inject.transform.apply(inject.transform, arguments);
   }
 
-  const JSLIB_INJECTABLES_TARGET = gulp.src(filterNoMap(PATH.src.jslib));
-  const CSSLIB_INJECTABLES_TARGET = gulp.src(filterNoMap(PATH.src.csslib));
-  const CSS = gulp.src(filterNoMap(PATH.src.css));
+  function mapPath(dep: any): string {
+    return `${dep.dest}/${dep.src.split('/').pop()}`;
+  }
+
+  const injectablesDependenciesRef = PATH.src.deps
+      .filter(dep => dep['inject'])
+      .map(mapPath);
 
   return gulp.src(PATH.src.index)
-    .pipe(inject(CSSLIB_INJECTABLES_TARGET, {
-      name: 'csslib',
+    .pipe(inject(gulp.src(injectablesDependenciesRef, {read: false}), {
       transform: transformPath
-    }))
-    .pipe(inject(JSLIB_INJECTABLES_TARGET, {
-      name: 'jslib',
-      transform: transformPath
-    }))
-    .pipe(inject(CSS, {
-      transform: function(filepath: string) {
-        arguments[0] = filepath.replace(`/${PATH.src.base}/`, '');
-        return inject.transform.apply(inject.transform, arguments);
-      }
     }))
     .pipe(template(templateLocals))
     .pipe(gulp.dest(PATH.dest.app.base));
@@ -159,7 +143,6 @@ gulp.task('index.watch', ['index.build'], () =>
 gulp.task('build', ['dist.clean'], (done: gulp.TaskCallback) =>
   runSequence(
     [
-      'csslib.build',
       'font.build',
       'jslib.build',
       'css.build',
@@ -174,7 +157,6 @@ gulp.task('build', ['dist.clean'], (done: gulp.TaskCallback) =>
 gulp.task('build.watch', ['dist.clean'], (done: gulp.TaskCallback) =>
   runSequence(
     [
-      'csslib.build',
       'font.build',
       'jslib.watch',
       'css.watch',

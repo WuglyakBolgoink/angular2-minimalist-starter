@@ -16,7 +16,7 @@ export const APP_VERSION: string = pkg.version;
 
 const CLIENT_SRC_BASE = 'client';
 const CLIENT_DEST_BASE = 'dist';
-const ANGULAR_BUNDLES = './node_modules/angular2/bundles';
+export const LIB_DEST             = `${CLIENT_DEST_BASE}/lib`;
 
 
 export const PATH = {
@@ -30,39 +30,32 @@ export const PATH = {
   ],
   src: {
     base: CLIENT_SRC_BASE,
-    jslib: [
-      // Order is quite important here for the HTML tag injection.
-      'node_modules/es6-shim/es6-shim.min.js',
-      'node_modules/es6-shim/es6-shim.map',
-      'node_modules/systemjs/dist/system.src.js',
-      `${CLIENT_SRC_BASE}/system.config.js`,
-      `${ANGULAR_BUNDLES}/angular2.dev.js`,
-      `${ANGULAR_BUNDLES}/router.dev.js`,
-      `${ANGULAR_BUNDLES}/http.dev.js`
-    ],
-    jslib_copy_only: [
-      'node_modules/systemjs/dist/system-polyfills.js',
-      'node_modules/systemjs/dist/system-polyfills.js.map'
-    ],
-    csslib: [
-      'node_modules/bootstrap/dist/css/bootstrap.min.css',
-      'node_modules/bootstrap/dist/css/bootstrap.css.map'
+    deps: [
+      {src: 'node_modules/es6-shim/es6-shim.min.js', dest: LIB_DEST, inject: true},
+      {src: 'node_modules/reflect-metadata/Reflect.js', dest: LIB_DEST, inject: true},
+      {src: 'node_modules/systemjs/dist/system-polyfills.js', dest: LIB_DEST},
+      {src: 'node_modules/systemjs/dist/system.src.js', dest: LIB_DEST, inject: true},
+
+      {src: `${CLIENT_SRC_BASE}/system.config.js`, dest: LIB_DEST, inject: true},
+
+      {src: 'node_modules/angular2/bundles/angular2.min.js', dest: LIB_DEST, inject: true},
+      {src: 'node_modules/angular2/bundles/router.js', dest: LIB_DEST, inject: true},
+      {src: 'node_modules/angular2/bundles/http.min.js', dest: LIB_DEST, inject: true},
+
+      {src: 'node_modules/bootstrap/dist/css/bootstrap.min.css', dest: LIB_DEST, inject: true}
     ],
     font: [
-      'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.eot',
-      'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.svg',
-      'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf',
-      'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff',
-      'node_modules/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2'
+      'node_modules/bootstrap/dist/fonts/*'
     ],
     index: `${CLIENT_SRC_BASE}/index.html`,
-    tpl: [
-      `${CLIENT_SRC_BASE}/components/**/*.html`,
-    ],
+    tpl: `${CLIENT_SRC_BASE}/components/**/*.html`,
     css: [
       `${CLIENT_SRC_BASE}/components/**/*.css`,
     ],
-    ts: [`${CLIENT_SRC_BASE}/**/*.ts`, `!${CLIENT_SRC_BASE}/**/*_spec.ts`]
+    ts: [
+      `${CLIENT_SRC_BASE}/**/*.ts`,
+      `!${CLIENT_SRC_BASE}/**/*_spec.ts`
+    ]
   },
   dest: {
     app: {
@@ -75,5 +68,8 @@ export const PATH = {
     tmp: '.tmp'
   }
 };
+
+export const DEPS_SRC = PATH.src.deps.map(it => it.src);
+
 
 
