@@ -6,6 +6,7 @@ import {
   it,
 } from 'angular2/testing';
 import {Component, View} from 'angular2/core';
+
 import {HomeCmp} from './home';
 
 export function main() {
