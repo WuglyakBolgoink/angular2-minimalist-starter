@@ -2,30 +2,31 @@
 // Generated on Wed Jul 15 2015 09:44:02 GMT+0200 (Romance Daylight Time)
 
 module.exports = function(config) {
-  config.set({    
+  config.set({
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine', 'source-map-support'],
-    
+
     // list of files / patterns to load in the browser
-    files: [     
-      
-      {pattern: 'node_modules/angular2/**/*.js', included: false, watched: false},    
-                
+    files: [
+
+
       'node_modules/es6-shim/es6-shim.js',
-      
+
       // zone-microtask must be included first as it contains a Promise monkey patch
       'node_modules/zone.js/dist/zone-microtask.js',
       'node_modules/zone.js/dist/long-stack-trace-zone.js',
       'node_modules/zone.js/dist/jasmine-patch.js',
 
       'node_modules/systemjs/dist/system.src.js',
-      {pattern: 'node_modules/@reactivex/rxjs/dist/cjs/**', included: false, watched: false, served: true},
-      'node_modules/reflect-metadata/Reflect.js',    
-      
-      {pattern: 'test/**', included: false, watched: true},      
+      {pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false, served: true},
+      'node_modules/reflect-metadata/Reflect.js',
       'tools/build/file2modulename.js',
+      {pattern: 'node_modules/angular2/**/*.js', included: false, watched: false},
+
+      {pattern: 'test/**', included: false, watched: true},
+
       'test-main.js'
     ],
 
@@ -36,8 +37,8 @@ module.exports = function(config) {
       'node_modules/angular2/examples/**',
       'node_modules/angular2/**/*_spec.js',
       'node_modules/angular2/**/*.min.js',
-      'node_modules/@reactivex/rxjs/dist/cjs/**/*.ts'
-    ],    
+      'node_modules/rxjs/testing/**'
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

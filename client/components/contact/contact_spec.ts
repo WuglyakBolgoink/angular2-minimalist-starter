@@ -1,10 +1,16 @@
-import {provide, Observable, Injector} from 'angular2/angular2';
+import {provide, Injector} from 'angular2/core';
 import {BaseRequestOptions, ConnectionBackend, Http, Response,
   ResponseOptions
 } from 'angular2/http';
-import {TestComponentBuilder, describe, expect, inject, injectAsync, it,
+import {TestComponentBuilder, describe, expect, inject, it,
   beforeEachProviders
 } from 'angular2/testing';
+
+// TODO: only import the specific components from RxJs being used for reducing overhead.
+// import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/do';
+import 'rxjs/Rx';
+import {Observable} from 'rxjs/Observable';
 
 import {ObjectUtil} from '../../core/util';
 import {HttpClient} from '../../core/http_client';
@@ -18,7 +24,7 @@ export function main() {
 
   describe('Contact component', () => {
 
-    it('should work', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    it('should work', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
       return tcb.overrideViewProviders(ContactCmp, [provide(ContactService, { useClass: ContactServiceMock })])
         .createAsync(ContactCmp).then((fixture) => {
 

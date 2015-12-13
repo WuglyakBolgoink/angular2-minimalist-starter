@@ -12,33 +12,33 @@ System.config({
   defaultJSExtensions: true,
   paths: {
     'angular2/*': 'node_modules/angular2/*.js',
-    'rxjs/*': 'rxjs/*.js'
+    'rxjs/*': 'node_modules/rxjs/*.js'
   }
 });
 
-// Import all the specs, execute their `main()` method and kick off Karma (Jasmine).
-System.import('angular2/src/core/dom/browser_adapter').then(function(browser_adapter) {
+System.import('angular2/src/platform/browser/browser_adapter').then(function(browser_adapter) {
   browser_adapter.BrowserDomAdapter.makeCurrent();
 }).then(function() {
-  return Promise.all(
-    Object.keys(window.__karma__.files) // All files served by Karma.
-    .filter(onlySpecFiles)
-    .map(window.file2moduleName)        // Normalize paths to module names.
-    .map(function(path) {
-      return System.import(path).then(function(module) {
-        if (module.hasOwnProperty('main')) {
-          module.main();
-        } else {
-          throw new Error('Module ' + path + ' does not implement main() method.');
-        }
-      });
-    }));
-})
-.then(function() {
-  __karma__.start();
-}, function(error) {
-  __karma__.error(error.stack || error);
-});
+    return Promise.all(
+      Object.keys(window.__karma__.files) // All files served by Karma.
+        .filter(onlySpecFiles)
+        .map(file2moduleName)
+        .map(function(path) {
+          return System.import(path).then(function(module) {
+            if (module.hasOwnProperty('main')) {
+              module.main();
+            } else {
+              throw new Error('Module ' + path + ' does not implement main() method.');
+            }
+          });
+        }));
+  })
+  .then(function() {
+    __karma__.start();
+  }, function(error) {
+    console.error(error.stack || error);
+    __karma__.start();
+  });
 
 
 function onlySpecFiles(path) {
