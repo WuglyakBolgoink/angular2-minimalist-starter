@@ -1,5 +1,8 @@
-import {COMMON_DIRECTIVES, COMMON_PIPES, Component, Validators,
-ControlGroup, Control, Observable} from 'angular2/angular2';
+import {COMMON_DIRECTIVES, COMMON_PIPES, Validators,
+ControlGroup, Control} from 'angular2/common';
+import {Component} from 'angular2/core';
+
+import {Observable} from 'rxjs/Observable';
 
 import {validateEmail} from '../../core/web_util';
 import {Contact} from '../../core/dto';

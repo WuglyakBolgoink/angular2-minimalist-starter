@@ -2,16 +2,16 @@ import {
   TestComponentBuilder,
   describe,
   expect,
-  injectAsync,
+  inject,
   it,
 } from 'angular2/testing';
-import {Component, View} from 'angular2/angular2';
+import {Component, View} from 'angular2/core';
 
 import {AppCmp} from './app';
 
 export function main() {
   describe('App component', () => {
-    it('should work', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    it('should work', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
         return tcb.overrideTemplate(TestComponent, '<div><home></home></div>')
           .createAsync(TestComponent).then((rootTC) => {
 

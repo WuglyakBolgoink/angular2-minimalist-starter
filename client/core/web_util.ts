@@ -1,4 +1,4 @@
-import {Control} from 'angular2/angular2';
+import {Control} from 'angular2/common';
 import {Headers} from 'angular2/http';
 
 const EMAIL_REG = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;

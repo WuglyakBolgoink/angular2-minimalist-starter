@@ -1,10 +1,10 @@
-import {Pipe, PipeTransform} from 'angular2/angular2';
+import {Pipe, PipeTransform} from 'angular2/core';
 
 
 @Pipe({
   name: 'customOrderBy'
 })
-export class CustomOrderByPipe implements PipeTransform {  
+export class CustomOrderByPipe implements PipeTransform {
 
   dynamicSort(prop: string): Function {
 
@@ -27,7 +27,7 @@ export class CustomOrderByPipe implements PipeTransform {
 
       let i = 0;
       let result = 0;
-      
+
       /* try getting a different result from 0 (equal)
        * as long as we have extra properties to compare
        */
@@ -39,11 +39,11 @@ export class CustomOrderByPipe implements PipeTransform {
       return result;
     };
   }
-  
+
   transform(value: Object[], args: string[]) {
-    
-    const params = Array.isArray(args[0]) ? args[0] : args; 
-    
+
+    const params = Array.isArray(args[0]) ? args[0] : args;
+
     if (!value) {
       return value;
     }

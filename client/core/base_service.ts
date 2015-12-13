@@ -1,5 +1,5 @@
-import {Observable} from 'angular2/angular2';
 import {Http, Response} from 'angular2/http';
+import {Observable} from 'rxjs/Observable';
 
 import {OPTS_REQ_JSON} from './web_util';
 import {BaseDto} from './dto';

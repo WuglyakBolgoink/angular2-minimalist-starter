@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/angular2';
+import {Injectable} from 'angular2/core';
 
 import {Contact} from '../../core/dto';
 import {HttpClient} from '../../core/http_client';

@@ -5,7 +5,7 @@ import {
   injectAsync,
   it,
 } from 'angular2/testing';
-import {Component, View} from 'angular2/angular2';
+import {Component, View} from 'angular2/core';
 import {HomeCmp} from './home';
 
 export function main() {

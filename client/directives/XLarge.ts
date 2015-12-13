@@ -1,5 +1,5 @@
 // Angular 2
-import {Directive, ElementRef} from 'angular2/angular2';
+import {Directive, ElementRef} from 'angular2/core';
 
 // Simple example directive that should be in `/directives` folder
 @Directive({
