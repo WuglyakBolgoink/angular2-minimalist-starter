@@ -17,7 +17,6 @@ export class HttpClient {
 	get(url: string, options?: RequestOptionsArgs): Observable<Response> {
 		this._notify({type: 'start'});
 		return this.http.get(url, options)
-			.map(this._mapResponse)
 			.do(res => this._notify({type: 'done'}),
 				err => this._notify({type: 'error', data: err}),
 				() => this._notify({type: 'complete'}));
@@ -26,7 +25,6 @@ export class HttpClient {
 	post(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
 		this._notify({type: 'start'});
 		return this.http.post(url, body, options)
-			.map(this._mapResponse)
 			.do(res => this._notify({type: 'done'}),
 				err => this._notify({type: 'error', data: err}),
 				() => this._notify({type: 'complete'}));
@@ -35,7 +33,6 @@ export class HttpClient {
 	put(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
 		this._notify({type: 'start'});
 		return this.http.put(url, body, options)
-			.map(this._mapResponse)
 			.do(res => this._notify({type: 'done'}),
 				err => this._notify({type: 'error', data: err}),
 				() => this._notify({type: 'complete'}));
@@ -44,7 +41,6 @@ export class HttpClient {
 	delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
 		this._notify({type: 'start'});
 		return this.http.delete(url, options)
-			.map(this._mapResponse)
 			.do(res => this._notify({type: 'done'}),
 				err => this._notify({type: 'error', data: err}),
 				() => this._notify({type: 'complete'}));
@@ -53,7 +49,6 @@ export class HttpClient {
   patch(url: string, body: string, options?: RequestOptionsArgs): Observable<Response> {
     this._notify({type: 'start'});
     return this.http.patch(url, body, options)
-      .map(this._mapResponse)
       .do(res => this._notify({type: 'done'}),
         err => this._notify({type: 'error', data: err}),
         () => this._notify({type: 'complete'}));
@@ -65,7 +60,6 @@ export class HttpClient {
   head(url: string, options?: RequestOptionsArgs): Observable<Response> {
     this._notify({type: 'start'});
     return this.http.head(url, options)
-      .map(this._mapResponse)
       .do(res => this._notify({type: 'done'}),
         err => this._notify({type: 'error', data: err}),
         () => this._notify({type: 'complete'}));
@@ -73,16 +67,6 @@ export class HttpClient {
 
 	private _notify(data: Notification) {
 		this.requestNotifier.emit(data);
-	}
-
-	// TODO remove this function once the angular2's http provider throw errors accordingly to http codes.
-	private _mapResponse(response: Response): Response {
-		if (response.status >= 200 && response.status < 300) {
-			return response;
-		}
-		const error = new Error(response['_body'] ? response['_body'] : response.statusText);
-		error['response'] = response;
-		throw error;
 	}
 
 }
