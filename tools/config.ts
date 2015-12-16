@@ -32,9 +32,9 @@ export const PATH = {
     base: CLIENT_SRC_BASE,
     deps: [
       {src: 'node_modules/es6-shim/es6-shim.min.js', dest: LIB_DEST, inject: true},
-      {src: 'node_modules/reflect-metadata/Reflect.js', dest: LIB_DEST, inject: true},
       {src: 'node_modules/systemjs/dist/system-polyfills.js', dest: LIB_DEST},
       {src: 'node_modules/systemjs/dist/system.src.js', dest: LIB_DEST, inject: true},
+      { src: 'node_modules/angular2/bundles/angular2-polyfills.js', dest: LIB_DEST, inject: true },
 
       {src: `${CLIENT_SRC_BASE}/system.config.js`, dest: LIB_DEST, inject: true},
 
