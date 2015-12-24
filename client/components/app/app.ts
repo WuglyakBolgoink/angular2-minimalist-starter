@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, ViewEncapsulation} from 'angular2/core';
 import {
   RouteConfig,
   ROUTER_DIRECTIVES
@@ -14,7 +14,8 @@ import {Notification} from '../../core/dto';
   selector: 'app',
   templateUrl: './components/app/app.html',
   styleUrls: ['./components/app/app.css'],
-  directives: [ROUTER_DIRECTIVES]
+  directives: [ROUTER_DIRECTIVES],
+  encapsulation: ViewEncapsulation.None
 })
 @RouteConfig([
   { path: '/', component: HomeCmp, as: 'Home' },

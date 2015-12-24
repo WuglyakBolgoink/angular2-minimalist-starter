@@ -2,12 +2,10 @@
 
 <form [ngFormModel]="form" (submit)="form.valid && saveOne()" novalidate class="form-inline">
   <input ngControl="_id" [(ngModel)]="contact._id" type="hidden">
-  <div class="form-group has-feedback" [class.has-error]="form.controls.name.dirty && !form.controls.name.valid
-      && form.controls.name.value !== ''">
+  <div class="form-group">
     <input ngControl="name" [(ngModel)]="contact.name" autofocus class="form-control" placeholder="Name">
   </div>
-  <div class="form-group has-feedback" [class.has-error]="form.controls.email.dirty && !form.controls.email.valid
-      && form.controls.email.value !== ''">
+  <div class="form-group">
     <input ngControl="email" [(ngModel)]="contact.email" class="form-control" placeholder="Email">
   </div>
   <button (click)="resetForm()" type="button" class="btn btn-default">
