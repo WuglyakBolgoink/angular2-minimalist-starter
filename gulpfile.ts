@@ -7,9 +7,9 @@ import * as typescript from 'gulp-typescript';
 import * as rename from 'gulp-rename';
 import * as inject from 'gulp-inject';
 import * as template from 'gulp-template';
-import * as jslint from 'gulp-tslint';
+import * as tslint from 'gulp-tslint';
 import * as inlineNg2Template from 'gulp-inline-ng2-template';
-import * as jslintStylish from 'gulp-tslint-stylish';
+import * as tslintStylish from 'gulp-tslint-stylish';
 import * as shell from 'gulp-shell';
 import * as nodemon from 'gulp-nodemon';
 import {Server} from 'karma';
@@ -34,7 +34,7 @@ export function notifyLiveReload(changedFiles: string[]) {
 
 const tsProject = ts.createProject('tsconfig.json');
 
-function compileJs(src: string | string[], dest: string, inlineTpl?: boolean): NodeJS.ReadWriteStream {
+function compileTs(src: string | string[], dest: string, inlineTpl?: boolean): NodeJS.ReadWriteStream {
 
   let result = gulp.src(src)
     .pipe(plumber())
@@ -49,10 +49,10 @@ function compileJs(src: string | string[], dest: string, inlineTpl?: boolean): N
     .pipe(gulp.dest(dest));
 }
 
-function lintJs(src: string | string[]) {
+function lintTs(src: string | string[]) {
   return gulp.src(src)
-    .pipe(jslint())
-    .pipe(jslint.report(jslintStylish));
+    .pipe(tslint())
+    .pipe(tslint.report(tslintStylish));
 }
 
 // --------------
@@ -99,13 +99,13 @@ gulp.task('tpl.watch', ['tpl.build'], () =>
   )
 );
 
-gulp.task('js.build', () => {
-  return compileJs(PATH.src.ts, PATH.dest.app.base);
+gulp.task('ts.build', () => {
+  return compileTs(PATH.src.ts, PATH.dest.app.base);
 });
 
-gulp.task('js.watch', ['js.build'], () =>
+gulp.task('ts.watch', ['ts.build'], () =>
   gulp.watch(PATH.src.ts, (evt) => {
-    runSequence('js.build', () => notifyLiveReload([evt.path]));
+    runSequence('ts.build', () => notifyLiveReload([evt.path]));
   })
 );
 
@@ -147,8 +147,8 @@ gulp.task('build', ['dist.clean'], (done: gulp.TaskCallback) =>
       'jslib.build',
       'css.build',
       'tpl.build',
-      'jslint',
-      'js.build'
+      'tslint',
+      'ts.build'
     ],
     'index.build',
     done)
@@ -161,8 +161,8 @@ gulp.task('build.watch', ['dist.clean'], (done: gulp.TaskCallback) =>
       'jslib.watch',
       'css.watch',
       'tpl.watch',
-      'jslint.watch',
-      'js.watch',
+      'tslint.watch',
+      'ts.watch',
     ],
     'index.watch',
     done)
@@ -195,7 +195,7 @@ gulp.task('serve', (done: gulp.TaskCallback) =>
 // Test.
 gulp.task('test.build', () => {
   const src = [`${PATH.src.base}/**/*.ts`, `!${PATH.src.base}/bootstrap.ts`];
-  return compileJs(src, PATH.dest.test, true);
+  return compileTs(src, PATH.dest.test, true);
 });
 
 gulp.task('test.watch', ['test.build'], () =>
@@ -211,18 +211,18 @@ gulp.task('karma.start', (done: gulp.TaskCallback) => {
 });
 
 gulp.task('test', ['test.clean'], (done: gulp.TaskCallback) =>
-  runSequence(['jslint', 'test.build'], 'karma.start', done)
+  runSequence(['tslint', 'test.build'], 'karma.start', done)
 );
 
 // --------------
 // Lint.
-gulp.task('jslint', () =>
-  lintJs(PATH.jslint)
+gulp.task('tslint', () =>
+  lintTs(PATH.tslint)
 );
 
-gulp.task('jslint.watch', ['jslint'], () =>
-  gulp.watch(PATH.jslint, (evt) =>
-    lintJs(evt.path)
+gulp.task('tslint.watch', ['tslint'], () =>
+  gulp.watch(PATH.tslint, (evt) =>
+    lintTs(evt.path)
   )
 );
 

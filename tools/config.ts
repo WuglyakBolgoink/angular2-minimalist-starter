@@ -21,7 +21,7 @@ export const LIB_DEST             = `${CLIENT_DEST_BASE}/lib`;
 
 export const PATH = {
   cwd: CWD,
-  jslint: [
+  tslint: [
     `${CLIENT_SRC_BASE}/**/*.ts`,
     `${CWD}/server/**/*.ts`,
     `tools/**/*.ts`,
