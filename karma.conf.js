@@ -13,6 +13,7 @@ module.exports = function(config) {
 
 
       'node_modules/es6-shim/es6-shim.js',
+      { pattern: 'node_modules/systemjs/dist/system-polyfills.js', included: false, watched: false }, // PhantomJS2 (and possibly others) might require it
 
       // zone-microtask must be included first as it contains a Promise monkey patch
       'node_modules/zone.js/dist/zone-microtask.js',
@@ -52,7 +53,7 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [
       'Chrome',
-      // 'PhantomJS2'
+      'PhantomJS2'
     ],
 
     customLaunchers: {
