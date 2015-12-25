@@ -12,8 +12,7 @@ import {Autofocus} from '../../directives/Autofocus';
 @Component({
   selector: 'contact',
   templateUrl: './components/contact/contact.html',
-  directives: [COMMON_DIRECTIVES, Autofocus],
-  pipes: [COMMON_PIPES],
+  directives: [Autofocus],
   viewProviders: [ContactService]
 })
 export class ContactCmp {
