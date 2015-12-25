@@ -1,14 +1,12 @@
-import {provide, Injector} from 'angular2/core';
+import {provide, Injector, Component, View} from 'angular2/core';
 import {BaseRequestOptions, ConnectionBackend, Http, Response,
-  ResponseOptions
+ResponseOptions
 } from 'angular2/http';
-import {TestComponentBuilder, describe, expect, inject, it,
-  beforeEachProviders
-} from 'angular2/testing';
+import {MockBackend} from 'angular2/http/testing';
+import {TestComponentBuilder, describe, expect, injectAsync, it,
+beforeEachProviders, AsyncTestCompleter
+} from 'angular2/testing_internal';
 
-// TODO: only import the specific components from RxJs being used for reducing overhead.
-// import 'rxjs/add/operator/map';
-// import 'rxjs/add/operator/do';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Observable';
 
@@ -24,11 +22,13 @@ export function main() {
 
   describe('Contact component', () => {
 
-    it('should work', inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-      return tcb.overrideViewProviders(ContactCmp, [provide(ContactService, { useClass: ContactServiceMock })])
-        .createAsync(ContactCmp).then((fixture) => {
+    it('should work', injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) =>
+      tcb.overrideTemplate(TestComponent, '<div><contact></contact></div>')
+        .createAsync(TestComponent).then((fixture) => {
 
           fixture.detectChanges();
+
+          expect(true).toBe(false);
 
           const contactCmp: ContactCmp = fixture.debugElement.componentInstance;
           const compiled = fixture.debugElement.nativeElement;
@@ -50,7 +50,7 @@ export function main() {
 
           expect(obtainContactsLenght()).toBe(newLength);
           const existingContact = ObjectUtil.clone(contacts[0]);
-          existingContact.name = `Changed attr ${Date.now() }`;
+          existingContact.name = `Changed attr ${Date.now()}`;
           contactCmp.resetForm(existingContact);
           contactCmp.saveOne();
 
@@ -74,56 +74,15 @@ export function main() {
           newLength--;
 
           expect(obtainContactsLenght()).toBe(newLength);
-        });
-    }));
+        })
+    ));
 
   });
 
 
-  class ContactServiceMock {
-
-    createOne(data: Contact): Observable<Contact> {
-      const contact = buildContact(data);
-      contacts.push(contact);
-      return Observable.of(contact);
-    }
-
-    updateOne(data: Contact): Observable<Contact> {
-      return this.findOneById(data._id).map((contact: Contact) => {
-        ObjectUtil.merge(contact, data);
-        contact.updatedAt = Date.now();
-        return contact;
-      });
-    }
-
-    removeOneById(id: string): Observable<Contact> {
-      const index = this._findIndex(id);
-      const removed = contacts.splice(index, 1);
-      return Observable.of(removed);
-    }
-
-    find(): Observable<Contact[]> {
-      return Observable.of(contacts);
-    }
-
-    findOneById(id: string): Observable<Contact> {
-      const index = this._findIndex(id);
-      const contact = contacts[index];
-      return Observable.of(contact);
-    }
-
-    private _findIndex(id: string): number {
-      const n = contacts.length;
-      for (let i = 0; i < n; i++) {
-        const it = contacts[i];
-        if (it._id === id) {
-          return i;
-        }
-      }
-      return -1;
-    }
-
-  }
+  @Component({ selector: 'test-cmp' })
+  @View({ directives: [ContactCmp] })
+  class TestComponent { }
 
 }
 
