@@ -8,11 +8,13 @@ import {validateEmail} from '../../core/web_util';
 import {Contact} from '../../core/dto';
 import {ContactService} from './contact_service';
 import {Autofocus} from '../../directives/Autofocus';
+import {CustomOrderByPipe} from '../../pipes/CustomOrderByPipe';
 
 @Component({
   selector: 'contact',
   templateUrl: './components/contact/contact.html',
   directives: [Autofocus],
+  pipes[CustomOrderByPipe],
   viewProviders: [ContactService]
 })
 export class ContactCmp {

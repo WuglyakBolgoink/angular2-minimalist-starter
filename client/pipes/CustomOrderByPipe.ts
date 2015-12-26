@@ -6,6 +6,19 @@ import {Pipe, PipeTransform} from 'angular2/core';
 })
 export class CustomOrderByPipe implements PipeTransform {
 
+  transform(value: Object[], args: string[]) {
+
+    const params = Array.isArray(args[0]) ? args[0] : args;
+
+    if (!value) {
+      return value;
+    }
+
+    value.sort(this.dynamicSortMultiple.apply(this, params));
+
+    return value;
+  }
+
   dynamicSort(prop: string): Function {
 
     let sortOrder = 1;
@@ -38,19 +51,6 @@ export class CustomOrderByPipe implements PipeTransform {
 
       return result;
     };
-  }
-
-  transform(value: Object[], args: string[]) {
-
-    const params = Array.isArray(args[0]) ? args[0] : args;
-
-    if (!value) {
-      return value;
-    }
-
-    value.sort(this.dynamicSortMultiple.apply(this, params));
-
-    return value;
   }
 
 }
