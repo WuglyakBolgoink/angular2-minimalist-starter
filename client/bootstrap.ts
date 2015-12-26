@@ -3,14 +3,16 @@ import {provide} from 'angular2/core';
 import {ROUTER_PROVIDERS} from 'angular2/router';
 import {HTTP_PROVIDERS} from 'angular2/http';
 
-import {HttpClient} from './core/http_client';
-import {AppCmp} from './components/app/app';
+import {HttpUtil} from './core/http.util';
+import {AppComponent} from './components/app/app.component';
+import {ContactService} from './components/contact/contact.service';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 
-bootstrap(AppCmp, [
+bootstrap(AppComponent, [
   ROUTER_PROVIDERS,
   HTTP_PROVIDERS,
-  HttpClient
+  HttpUtil,
+  ContactService
 ]);

@@ -5,7 +5,7 @@ import * as openResource from 'open';
 import {resolve} from 'path';
 
 import {APP_BASE, LIVE_RELOAD_PORT, PATH, PORT} from '../tools/config';
-import * as contactRouter from './contact/contact_router';
+import * as contactRouter from './contact/contact.router';
 
 const INDEX_DEST_PATH = resolve(PATH.cwd, PATH.dest.app.base, 'index.html');
 

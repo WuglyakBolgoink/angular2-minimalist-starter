@@ -11,9 +11,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
 
-
       'node_modules/es6-shim/es6-shim.js',
-      { pattern: 'node_modules/systemjs/dist/system-polyfills.js', included: false, watched: false }, // PhantomJS2 (and possibly others) might require it
+      'node_modules/systemjs/dist/system-polyfills.js', // PhantomJS2 (and possibly others) might require it
 
       // zone-microtask must be included first as it contains a Promise monkey patch
       'node_modules/zone.js/dist/zone-microtask.js',
@@ -23,6 +22,8 @@ module.exports = function(config) {
       'node_modules/systemjs/dist/system.src.js',
       {pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false, served: true},
       'node_modules/reflect-metadata/Reflect.js',
+      'node_modules/rxjs/bundles/Rx.js',      
+      
       'tools/build/file2modulename.js',
       {pattern: 'node_modules/angular2/**/*.js', included: false, watched: false},
 
