@@ -14,7 +14,7 @@ import {CustomOrderByPipe} from '../../pipes/CustomOrderByPipe';
   selector: 'contact',
   templateUrl: './components/contact/contact.html',
   directives: [Autofocus],
-  pipes[CustomOrderByPipe],
+  pipes: [CustomOrderByPipe],
   viewProviders: [ContactService]
 })
 export class ContactCmp {
