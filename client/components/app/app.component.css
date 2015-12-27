@@ -1,3 +1,31 @@
+#main_container {
+  padding-top: 6.5rem;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  /* Set the fixed height of the footer here */
+  height: 6.0rem;
+  width: 98%;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+@keyframes loading {
+  from {color: inherit;}
+  to {color: green;}
+}
+
+/* The element to apply the animation to */
+.loading {
+  animation-name: loading;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
 .ng-valid[required] {
   border-left: 3px solid #42A948; /* green */
 }

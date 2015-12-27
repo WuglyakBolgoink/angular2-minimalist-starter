@@ -23,10 +23,11 @@ import {Notification} from '../../core/dto';
 ])
 export class AppComponent {
 
+  loading: boolean;
+
   constructor(private httpUtil: HttpUtil) {
     this.httpUtil.requestNotifier.subscribe((notification: Notification) => {
-      // Process Http request phases heres, also react to http errors.
-      console.log('notification', notification);
+      this.loading = notification.type !== 'complete';
     });
   }
 }
