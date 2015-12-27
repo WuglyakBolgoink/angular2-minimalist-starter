@@ -25,7 +25,6 @@ export class AppComponent {
 
   loading: boolean;
   
-
   constructor(private httpUtil: HttpUtil) {
     
     let numReqStarted = 0;
