@@ -9,7 +9,7 @@ import {Notification} from './dto';
 @Injectable()
 export class HttpUtil {
 
-  requestNotifier = new EventEmitter();
+  requestNotifier = new EventEmitter<Notification>();
 
 	constructor(private http: Http) {
 	}
