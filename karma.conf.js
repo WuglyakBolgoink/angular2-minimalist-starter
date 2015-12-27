@@ -21,8 +21,7 @@ module.exports = function(config) {
 
       'node_modules/systemjs/dist/system.src.js',
       {pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false, served: true},
-      'node_modules/reflect-metadata/Reflect.js',
-      'node_modules/rxjs/bundles/Rx.js',      
+      'node_modules/reflect-metadata/Reflect.js',   
       
       'tools/build/file2modulename.js',
       {pattern: 'node_modules/angular2/**/*.js', included: false, watched: false},
