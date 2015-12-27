@@ -1,5 +1,8 @@
 # Angular2 Minimalist Starter
 
+[![Dependency Status](https://github.com/rogerpadilla/angular2-minimalist-starter.svg)](https://github.com/rogerpadilla/angular2-minimalist-starter)
+[![devDependency Status](https://github.com/rogerpadilla/angular2-minimalist-starter.svg)](https://github.com/rogerpadilla/angular2-minimalist-starter#info=devDependencies)
+
 > A starter kit featuring:
 * Router
 * Component
