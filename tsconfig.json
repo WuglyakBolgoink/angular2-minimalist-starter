@@ -13,15 +13,15 @@
     },
     "compileOnSave": false,
     "filesGlob": [
-        "./client/**/*.ts",
-        "./server/**/*.ts",
-        "./gulpfile.ts",
-        "./tools/**/*.ts",
-        "./tools/typings/*.d.ts",
-        "./tools/typings/tsd/tsd.d.ts",
-        "!./dist/**",
-        "!./test/**",
+        "client/**/*.ts",
+        "server/**/*.ts",
+        "gulpfile.ts",
+        "tools/**/*.ts",
+        "tools/typings/*.d.ts",
+        "tools/typings/tsd/tsd.d.ts",
+        "!dist/**",
+        "!test/**",
         "!.tmp/**",
-        "!./node_modules/**"
+        "!node_modules/**"
     ]
 }
