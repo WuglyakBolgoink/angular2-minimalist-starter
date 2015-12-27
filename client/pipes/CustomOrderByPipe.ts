@@ -29,7 +29,9 @@ export class CustomOrderByPipe implements PipeTransform {
     }
 
     return (a: Object, b: Object) => {
-      const result = a[prop] < b[prop] ? -1 : (a[prop] > b[prop] ? 1 : 0);
+      const propA = typeof a[prop] === 'string' ? a[prop].toLowerCase() : a[prop];
+      const propB = typeof b[prop] === 'string' ? b[prop].toLowerCase() : b[prop];
+      const result = propA < propB ? -1 : (propA > propB ? 1 : 0);
       return result * sortOrder;
     };
   }
