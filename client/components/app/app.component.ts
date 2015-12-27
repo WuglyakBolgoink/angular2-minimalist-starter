@@ -32,16 +32,13 @@ export class AppComponent {
     
     this.httpUtil.requestNotifier.subscribe((notification: Notification) => {
       
-      switch (notification.type) {
-        case 'start':
-          ++numReqStarted;
-        break;
-        case 'complete':
-          ++numReqCompleted;
-        break;
+      if (notification.type === 'start') {
+        ++numReqStarted;
+      } else if (notification.type === 'complete') {
+        ++numReqCompleted;
       }
       
-      this.loading = numReqStarted > numReqCompleted;
+      this.loading = numReqStarted > numReqCompleted;            
     });
   }
 }
