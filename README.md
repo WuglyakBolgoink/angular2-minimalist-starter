@@ -1,7 +1,7 @@
 # Angular2 Minimalist Starter
 
-[![Dependency Status](https://github.com/rogerpadilla/angular2-minimalist-starter.svg)](https://github.com/rogerpadilla/angular2-minimalist-starter)
-[![devDependency Status](https://github.com/rogerpadilla/angular2-minimalist-starter.svg)](https://github.com/rogerpadilla/angular2-minimalist-starter#info=devDependencies)
+[![Dependency Status](https://david-dm.org/rogerpadilla/angular2-minimalist-starter.svg)](https://david-dm.org/rogerpadilla/angular2-minimalist-starter)
+[![devDependency Status](https://david-dm.org/rogerpadilla/angular2-minimalist-starter/dev-status.svg)](https://david-dm.org/rogerpadilla/angular2-minimalist-starter#info=devDependencies)
 
 > A starter kit featuring:
 * Router
@@ -41,7 +41,7 @@ Maintain an up-to-date and minimalist project using the very latest version of A
 
 ## Credits
 The following projects have served a lot as inspiration and help:
-- [angular2-seed](https://github.com/mgechev/angular2-seed)
+- [angular2-seed](https://github.com/rogerpadilla/angular2-minimalist-starter)
 - [ng2-play](https://github.com/pkozlowski-opensource/ng2-play)
 - [angular2-webpack-starter](https://github.com/angular-class/angular2-webpack-starter)
 - [angular2-authentication-sample](https://github.com/auth0/angular2-authentication-sample)
