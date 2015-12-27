@@ -4,7 +4,6 @@ import {XLarge} from '../../directives/XLarge';
 @Component({
   directives: [XLarge],
   selector: 'home',
-  templateUrl: './components/home/home.component.html',
-  styleUrls: ['./components/home/home.component.css']
+  templateUrl: './components/home/home.component.html'
 })
 export class HomeComponent {}
