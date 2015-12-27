@@ -24,10 +24,25 @@ import {Notification} from '../../core/dto';
 export class AppComponent {
 
   loading: boolean;
+  
 
   constructor(private httpUtil: HttpUtil) {
+    
+    let numReqStarted = 0;
+    let numReqCompleted = numReqStarted;
+    
     this.httpUtil.requestNotifier.subscribe((notification: Notification) => {
-      this.loading = notification.type !== 'complete';
+      
+      switch (notification.type) {
+        case 'start':
+          ++numReqStarted;
+        break;
+        case 'complete':
+          ++numReqCompleted;
+        break;
+      }
+      
+      this.loading = numReqStarted > numReqCompleted;
     });
   }
 }

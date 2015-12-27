@@ -44,7 +44,7 @@
 		"quotemar ": [ true, "single"],
 		"radix": false,
 		"semicolon": true,
-		"switch-default": true,
+		"switch-default": false,
 		"triple-equals": [true, "allow-null-check"],
 		"typedef": [
 			false,
