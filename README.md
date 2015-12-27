@@ -2,6 +2,7 @@
 
 [![Dependency Status](https://david-dm.org/rogerpadilla/angular2-minimalist-starter.svg)](https://david-dm.org/rogerpadilla/angular2-minimalist-starter)
 [![devDependency Status](https://david-dm.org/rogerpadilla/angular2-minimalist-starter/dev-status.svg)](https://david-dm.org/rogerpadilla/angular2-minimalist-starter#info=devDependencies)
+[![Build Status](https://travis-ci.org/rogerpadilla/angular2-minimalist-starter.svg?branch=master)](https://travis-ci.org/rogerpadilla/angular2-minimalist-starter)
 
 > A starter kit featuring:
 * Router
