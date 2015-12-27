@@ -55,6 +55,13 @@ function lintTs(src: string | string[]) {
     .pipe(tslint.report(tslintStylish));
 }
 
+function startKarma(singleRun = true) {
+  new Server({
+    configFile: `${PATH.cwd}/karma.conf.js`,
+    singleRun: singleRun
+  }).start();
+}
+
 // --------------
 // Client.
 gulp.task('font.build', () =>
@@ -198,15 +205,15 @@ gulp.task('test.build', () => {
   return compileTs(src, PATH.dest.test, true);
 });
 
-gulp.task('test.watch', ['test.build'], () =>
-  gulp.watch(PATH.src.ts, 'test.build')
-);
-
 gulp.task('karma.start', (done: gulp.TaskCallback) => {
-  new Server({
-    configFile: `${PATH.cwd}/karma.conf.js`,
-    singleRun: true
-  }).start();
+  startKarma();
+  done();
+});
+
+gulp.task('test.watch', ['test.clean'], (done: gulp.TaskCallback) => {
+  const src = [`${PATH.src.base}/**/*.ts`, `!${PATH.src.base}/bootstrap.ts`];  
+  gulp.watch(src, () => runSequence('test.build'));
+  runSequence(['tslint', 'test.build'], () => startKarma(false));  
   done();
 });
 
