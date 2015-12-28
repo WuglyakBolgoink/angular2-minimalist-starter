@@ -28,7 +28,7 @@ export function main() {
 
       contactService = new ContactService(null);
 
-      spyOn(contactService, 'find').and.returnValue(Observable.of(contacts));
+      spyOn(contactService, 'find').and.callFake(() => Observable.of(contacts));
 
       spyOn(contactService, 'findOneById').and.callFake((id: string) =>
         Observable.of(contacts.find(it => it._id === id))
