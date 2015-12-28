@@ -1,5 +1,4 @@
-import {COMMON_DIRECTIVES, COMMON_PIPES, Validators,
-ControlGroup, Control} from 'angular2/common';
+import {COMMON_DIRECTIVES, Validators, ControlGroup, Control} from 'angular2/common';
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
 import {Observable} from 'rxjs/Observable';
