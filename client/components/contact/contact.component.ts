@@ -12,8 +12,9 @@ import {CustomOrderByPipe} from '../../pipes/CustomOrderByPipe';
 @Component({
   selector: 'contact',
   templateUrl: './components/contact/contact.component.html',
-  directives: [ContactFormComponent],
-  pipes: [CustomOrderByPipe]
+  directives: [ContactFormComponent, COMMON_DIRECTIVES],
+  pipes: [CustomOrderByPipe, COMMON_PIPES],
+  providers: []
 })
 export class ContactComponent {
 
@@ -23,7 +24,7 @@ export class ContactComponent {
   constructor(private contactService: ContactService) {
     this.reset();
   }
-
+  
   remove(event: Event, data: Contact) {
 
     event.stopPropagation();

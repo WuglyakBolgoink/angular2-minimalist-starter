@@ -1,89 +1,96 @@
-import {provide, Injector, Component, View} from 'angular2/core';
-import {BaseRequestOptions, ConnectionBackend, Http, Response,
-ResponseOptions
-} from 'angular2/http';
-import {MockBackend} from 'angular2/http/testing';
-import {TestComponentBuilder, expect, inject, it,
-beforeEachProviders, fakeAsync, AsyncTestCompleter
+import {
+AsyncTestCompleter,
+TestComponentBuilder,
+describe,
+expect,
+inject,
+it,
+beforeEach
 } from 'angular2/testing_internal';
+import {Component, View, provide} from 'angular2/core';
 
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/Rx';
 
 import {ObjectUtil} from '../../core/object.util';
-import {HttpUtil} from '../../core/http.util';
-import {Contact} from '../../core/dto';
+
 import {ContactComponent} from './contact.component';
 import {ContactService} from './contact.service';
-
+import {contacts} from './contact.mock';
 
 export function main() {
 
   describe('ContactComponent', () => {
-    
-    // FIXME: make this test works again.
-    
-    // it('should work',
-    //   inject([TestComponentBuilder, AsyncTestCompleter], (tcb: TestComponentBuilder, async: AsyncTestCompleter) => {
-    //     tcb.overrideViewProviders(ContactComponent, [
-    //       provide(ContactService, {useFactory: () => {
-    //         return new ContactService(new HttpClient(new Http(new MockBackend(), new BaseRequestOptions())));
-    //       }})
-    //     ])
-    //       .createAsync(ContactComponent).then((fixture) => {
 
-    //         fixture.detectChanges();
+    let contactService: ContactService;
 
-    //         expect(true).toBe(false);
+    beforeEach(() => {
 
-    //         const ContactComponent: ContactComponent = fixture.debugElement.componentInstance;
-    //         const compiled = fixture.debugElement.nativeElement;
-    //         const itemsSelector = 'tbody tr';
+      contactService = new ContactService(null);
 
-    //         function obtainContactsLenght() {
-    //           return compiled.querySelectorAll(itemsSelector).length;
-    //         }
+      spyOn(contactService, 'find').and.returnValue(Observable.of(contacts));
 
-    //         const originalLength = obtainContactsLenght();
-    //         let newLength = originalLength;
-    //         expect(originalLength).toBe(contacts.length);
-    //         ContactComponent.resetForm({ name: `Some new task #: ${originalLength + 1}` });
-    //         ContactComponent.saveOne();
+      spyOn(contactService, 'findOneById').and.callFake((id: string) =>
+        Observable.of(contacts.find(it => it._id === id))
+      );
 
-    //         fixture.detectChanges();
+      spyOn(contactService, 'removeOneById').and.callFake((id: string) => {
+        let pos: number;
+        for (let i = 0; i < contacts.length; ++i) {
+          if (contacts[i]._id === id) {
+            pos = i;
+            break;
+          }
+        }
+        return Observable.of(contacts.splice(pos, 1));
+      });
+    });
 
-    //         newLength++;
 
-    //         expect(obtainContactsLenght()).toBe(newLength);
-    //         const existingContact = ObjectUtil.clone(contacts[0]);
-    //         existingContact.name = `Changed attr ${Date.now()}`;
-    //         ContactComponent.resetForm(existingContact);
-    //         ContactComponent.saveOne();
+    it('should work',
+      inject([TestComponentBuilder, AsyncTestCompleter], (tcb: TestComponentBuilder, async: AsyncTestCompleter) => {
+        tcb.overrideProviders(ContactComponent, [provide(ContactService, { useValue: contactService })])
+          .createAsync(ContactComponent).then((fixture) => {
 
-    //         fixture.detectChanges();
+            fixture.detectChanges();
 
-    //         expect(obtainContactsLenght()).toBe(newLength);
+            const cmp: ContactComponent = fixture.componentInstance;
 
-    //         ContactComponent.selectOne(existingContact._id);
+            const compiled = fixture.debugElement.nativeElement;
+            expect(compiled.querySelector('h2').textContent).toEqual('Contacts!');
 
-    //         fixture.detectChanges();
+            const itemsSelector = 'tbody tr';
 
-    //         const selectedContact = ContactComponent.contact;
+            function obtainContactsLenght() {
+              return compiled.querySelectorAll(itemsSelector).length;
+            }
 
-    //         expect(selectedContact._id).toBe(existingContact._id);
-    //         expect(selectedContact.name).toBe(existingContact.name);
+            const originalLength = obtainContactsLenght();
+            let newLength = originalLength;
+            expect(originalLength).toBe(contacts.length);
 
-    //         ContactComponent.removeOne(new Event('mock'), existingContact);
+            const existingContact = ObjectUtil.clone(contacts[0]);
 
-    //         fixture.detectChanges();
+            cmp.select(existingContact._id);
 
-    //         newLength--;
+            fixture.detectChanges();
 
-    //         expect(obtainContactsLenght()).toBe(newLength);
+            const selectedContact = cmp.selectedContact;
 
-    //         async.done();
-    //       });
-    //   }));
+            expect(selectedContact._id).toBe(existingContact._id);
+            expect(selectedContact.name).toBe(existingContact.name);
+
+            cmp.remove(new Event('mock'), existingContact);
+
+            fixture.detectChanges();
+
+            newLength--;
+
+            expect(obtainContactsLenght()).toBe(newLength);
+
+            async.done();
+          });
+      }));
 
   });
-
 }

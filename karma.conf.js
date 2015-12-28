@@ -38,6 +38,7 @@ module.exports = function(config) {
       'node_modules/angular2/examples/**',
       'node_modules/angular2/**/*_spec.js',
       'node_modules/angular2/**/*.min.js',
+      'node_modules/rxjs/bundles/**',
       'node_modules/rxjs/testing/**'
     ],
 

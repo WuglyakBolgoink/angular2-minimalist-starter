@@ -12,7 +12,8 @@ import {Autofocus} from '../../directives/Autofocus';
 @Component({
   selector: 'contact-form',
   templateUrl: './components/contact/contact-form.component.html',
-  directives: [Autofocus]
+  directives: [Autofocus, COMMON_DIRECTIVES],
+  providers: []
 })
 export class ContactFormComponent {
 

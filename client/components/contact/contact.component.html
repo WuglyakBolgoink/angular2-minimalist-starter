@@ -16,8 +16,6 @@
     <tr *ngFor="#contact of contacts | customOrderBy: ['-createdAt', 'name']" (click)="select(contact._id)">
       <td>{{ contact.name }}</td>
       <td>{{ contact.email }}</td>
-      <td>{{ contact.createdAt | date: 'medium'}}</td>
-      <td>{{ contact.updatedAt | date: 'medium'}}</td>
       <td>
         <button (click)="remove($event, contact)" class="btn btn-default">
           <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
