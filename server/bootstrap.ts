@@ -22,7 +22,7 @@ server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: false }));
 
 server.get('/api/**', (req, res, next) => {
-  // TODO: remove this simulation. Just mimics a delay in the backend.
+  // TODO: remove this. It just mimics a delay in the backend.
   const delay = Math.floor((Math.random() * 1000) + 1);
   setTimeout(() => next(), delay);
 });
