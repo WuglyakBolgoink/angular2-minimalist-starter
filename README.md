@@ -44,7 +44,7 @@ npm start # this command should automatically open a browser window
 * [Sublime Text](http://www.sublimetext.com) with [Typescript plugin](https://github.com/Microsoft/Typescript-Sublime-plugin#installation)
 
 ## Credits
-The following projects have served a lot as inspiration and help:
+The following projects have served (a lot) as inspiration and help:
 - [angular2-seed](https://github.com/mgechev/angular2-seed)
 - [angular2-webpack-starter](https://github.com/angular-class/angular2-webpack-starter)
 - [ng2-play](https://github.com/pkozlowski-opensource/ng2-play)
