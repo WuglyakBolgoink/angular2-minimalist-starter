@@ -14,14 +14,12 @@ export abstract class BaseResourceService<T extends BaseDto> {
     this.url = `/api/${resourceName}`;
   }
 
-  createOne(data: T): Observable<T> {
+  saveOne(data: T): Observable<T> {
     const body = JSON.stringify(data);
+    if (data._id) {
+      return this.httpUtil.put(`${this.url}/${data._id}`, body, OPTS_REQ_JSON).map((res: Response) => res.json());
+    }
     return this.httpUtil.post(this.url, body, OPTS_REQ_JSON).map((res: Response) => res.json());
-  }
-
-  updateOne(data: T): Observable<T> {
-    const body = JSON.stringify(data);
-    return this.httpUtil.put(`${this.url}/${data._id}`, body, OPTS_REQ_JSON).map((res: Response) => res.json());
   }
 
   removeOneById(id: string): Observable<T> {

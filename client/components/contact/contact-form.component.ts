@@ -1,5 +1,6 @@
-import {COMMON_DIRECTIVES, Validators, ControlGroup, Control} from 'angular2/common';
+import {COMMON_DIRECTIVES, COMMON_PIPES, Validators, ControlGroup, Control} from 'angular2/common';
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
+
 
 import {Observable} from 'rxjs/Observable';
 
@@ -12,6 +13,7 @@ import {Autofocus} from '../../directives/Autofocus';
   selector: 'contact-form',
   templateUrl: './components/contact/contact-form.component.html',
   directives: [Autofocus, COMMON_DIRECTIVES],
+  pipes: [COMMON_PIPES],
   providers: []
 })
 export class ContactFormComponent {
@@ -34,19 +36,11 @@ export class ContactFormComponent {
   }
 
   save() {
-
-    let obs: Observable<Contact>;
-
-    if (this.contact._id) {
-      obs = this.contactService.updateOne(this.contact);
-    } else {
-      obs = this.contactService.createOne(this.contact);
-    }
-
-    obs.subscribe((res: Contact) => {
-      this.clear();
-      this.saved.emit(res);
-    });
+    this.contactService.saveOne(this.contact)
+      .subscribe((res: Contact) => {
+        this.clear();
+        this.saved.emit(res);
+      });
   }
 
   clear() {

@@ -67,6 +67,8 @@ export function main() {
 
             const originalLength = obtainContactsLenght();
             let newLength = originalLength;
+            
+            expect(originalLength).toBeGreaterThan(0);            
             expect(originalLength).toBe(contacts.length);
 
             const existingContact = ObjectUtil.clone(contacts[0]);

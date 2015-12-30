@@ -2,7 +2,7 @@ export class ObjectUtil {
 
   private static _seq = 0;
 
-  static nextId() {
+  static nextId(): string {
     return `${++ObjectUtil._seq}`;
   }
 
@@ -10,7 +10,7 @@ export class ObjectUtil {
 		return JSON.parse(JSON.stringify(data));
 	}
 
-	static merge(dest: Object, src: Object) {
+	static merge(dest: Object, src: Object): Object {
 		if (ObjectUtil.isBlank(src)) {
 			return dest;
 		}
@@ -18,8 +18,11 @@ export class ObjectUtil {
 			return src;
 		}
 		for (let prop in src) {
-      dest[prop] = src[prop];
+      if (src.hasOwnProperty(prop)) {
+        dest[prop] = src[prop];
+      }
     }
+    return dest;
 	}
 
 	static isPresent(data: any): boolean {
