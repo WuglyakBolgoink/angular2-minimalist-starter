@@ -2,6 +2,7 @@ import {Injectable, EventEmitter} from 'angular2/core';
 import {Http, RequestOptionsArgs, Response} from 'angular2/http';
 
 import {Observable} from 'rxjs/Observable';
+import {ReplaySubject} from 'rxjs/subject/ReplaySubject';
 
 import {Notification} from './dto';
 
@@ -9,7 +10,7 @@ import {Notification} from './dto';
 @Injectable()
 export class HttpUtil {
 
-  requestNotifier = new EventEmitter<Notification>();
+  requestNotifier = new ReplaySubject<Notification>(1);
 
 	constructor(private http: Http) {
 	}
@@ -49,7 +50,7 @@ export class HttpUtil {
 	}
   
   private _notify(notification: Notification) {
-		this.requestNotifier.emit(notification);    
+		this.requestNotifier.next(notification);    
   }
 
 }
