@@ -27,7 +27,7 @@
 ## Goal
 Maintain an up-to-date and minimalist project using the very latest version of Angular2, while exposing most of the Angular2's features. Thus anyone can use it as an extremely minimal base to get up and running with Angular2 and TypeScript (using Gulp for assisting with boilerplate).
 
-**Note:** tested on Node >= 4.2.1 && < 5.0
+**Note:** tested on latest 4.x && 5.x versions of Node.js
 
 ## Quick start
 ```bash
