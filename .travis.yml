@@ -13,3 +13,8 @@ after_failure: cat /home/travis/build/rogerpadilla/angular2-minimalist-starter/n
 branches:
   only:
   - master
+env:
+  global:
+  # https://github.com/DefinitelyTyped/tsd#tsdrc
+  # Token has no scope (read-only access to public information)
+  - TSD_GITHUB_TOKEN=020041acfaefe6c423ee8d217eb732635f84dc5d
