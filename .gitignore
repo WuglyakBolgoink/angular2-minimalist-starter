@@ -30,3 +30,4 @@ test
 .tmp
 tools/typings/tsd
 .idea
+.DS_Store
