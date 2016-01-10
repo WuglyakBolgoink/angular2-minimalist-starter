@@ -3,6 +3,12 @@ node_js:
 - '4'
 - '5'
 sudo: false
+services:
+before_install:
+- npm update -g npm
+- npm --version
+- export CHROME_BIN=chromium-browser
+- export DISPLAY=:99.0
 before_script:
 notifications:
   email: true
