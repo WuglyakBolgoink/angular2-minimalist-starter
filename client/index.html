@@ -20,6 +20,14 @@
   <!-- endinject -->
 
   <script>
+
+    System.config({
+      defaultJSExtensions: true,
+      paths: {
+        'rxjs/*': 'lib/rxjs/*'
+      }
+    });
+
     System.import('bootstrap')
       .catch(function (e) {
         console.error(e);

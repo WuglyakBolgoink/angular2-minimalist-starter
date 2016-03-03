@@ -1,27 +1,24 @@
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "declaration": false,
-        "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "removeComments": true,
-        "noLib": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "sourceMap": false
-    },
-    "compileOnSave": false,
-    "filesGlob": [
-        "client/**/*.ts",
-        "server/**/*.ts",
-        "gulpfile.ts",
-        "tools/**/*.ts",
-        "tools/typings/*.d.ts",
-        "tools/typings/tsd/tsd.d.ts",
-        "!dist/**",
-        "!test/**",
-        "!.tmp/**",
-        "!node_modules/**"
-    ]
+  "compilerOptions": {
+    "target": "es5",
+    "module": "system",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "outFile": "dist/app/app.bundle.js"
+  },
+  "compileOnSave": false,
+  "exclude": [
+    "dist",
+    "node_modules",
+    "test",
+    "tmp",
+    "typings/browser.d.ts",
+    "typings/browser",
+    "typings/main.d.ts"
+  ]
 }
