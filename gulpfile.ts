@@ -204,11 +204,11 @@ gulp.task('lint', ['tsLint']);
 
 gulp.task('ts', ['clean.dist'], (cb) => compileTs(PATHS.src.custom.tsApp, TSC_APP_OPTS, cb));
 
-gulp.task('ts.w', ['tsLint.w', 'clean.dist'], (cb) => compileTsWatch(PATHS.src.custom.tsApp, TSC_APP_OPTS));
+gulp.task('ts.w', ['tsLint.w', 'clean.dist'], () => compileTsWatch(PATHS.src.custom.tsApp, TSC_APP_OPTS));
 
 gulp.task('test.build', ['clean.test'], (cb) => compileTs(PATHS.src.custom.test, TSC_TEST_OPTS, cb));
 
-gulp.task('test.build.w', ['tsLint.w', 'clean.test'], (cb) => compileTsWatch(PATHS.src.custom.test, TSC_TEST_OPTS));
+gulp.task('test.build.w', ['tsLint.w', 'clean.test'], () => compileTsWatch(PATHS.src.custom.test, TSC_TEST_OPTS));
 
 gulp.task('karma', ['clean.coverage'], (cb) => startKarma(true, cb));
 

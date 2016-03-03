@@ -40,7 +40,7 @@ export const PATHS = {
        `${LIB_SRC}/angular2/bundles/http.js`,
      ],
      jsCopyOnly: [
-       `${LIB_SRC}/systemjs/dist/system-polyfills.js`,
+       `${LIB_SRC}/systemjs/dist/system-polyfills.src.js`,
      ],
      font: [
        `${LIB_SRC}/bootstrap/dist/fonts/*`
@@ -88,7 +88,6 @@ const TSC_OPTS = fse.readJsonSync(`${CWD}/tsconfig.json`).compilerOptions;
 
 // Setting the following options here since them cause issues on the VSC IDE.
 // TODO: move to tsconfig.json once IDE adds support for them.
-TSC_OPTS.allowJs = true;
 TSC_OPTS.forceConsistentCasingInFileNames = true;
 TSC_OPTS.pretty = true;
 TSC_OPTS.module = 'system';
