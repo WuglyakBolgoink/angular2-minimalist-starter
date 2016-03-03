@@ -6,12 +6,12 @@ import {resolve} from 'path';
 import {LIVE_RELOAD_PORT, PATHS, PORT, APP_BASE} from '../tools/config';
 import * as contactRouter from './contact/contact.router';
 
-const INDEX_DEST_PATH = resolve(PATHS.cwd, PATHS.dest.app.base, 'index.html');
+const INDEX_DEST_PATH = resolve(PATHS.cwd, PATHS.dest.dist.base, 'index.html');
 
 const server = express();
 
 server.use(APP_BASE, <any> connectLivereload({ port: LIVE_RELOAD_PORT }));
-server.use(express.static(PATHS.dest.app.base));
+server.use(express.static(PATHS.dest.dist.base));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: false }));
 

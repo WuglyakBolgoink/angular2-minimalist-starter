@@ -40,16 +40,24 @@ function compileTs(src: string | string[], tscOpts: Object, cb?: Function) {
     if (_meta[procKey]) {
       _meta[procKey].kill();
     }
+    let completeNotified = false;
     _meta[procKey] = spawn(`node`, [`./node_modules/typescript/lib/tsc.js`, ...tscArgs, ...files]);
-    _meta[procKey].stdout.on('data', (data) => console.log(data.toString()));
+    _meta[procKey].stdout.on('data', (data) => {
+      console.log(data.toString());
+      if (!completeNotified && cb) {
+        cb();
+        completeNotified = true;        
+      }
+    });
     _meta[procKey].stderr.on('data', (data) => console.error(data.toString()));
     _meta[procKey].on('exit', (code) => {
       let error;
       if (code) {
         error = new Error(`Error #${code} while compiling ts files.`);
       }
-      if (cb) {
+      if (!completeNotified && cb) {
         cb(error);
+        completeNotified = true;
       }
     });
   });
@@ -100,8 +108,8 @@ function lintTs(src: string | string[]) {
 }
 
 function mapDestPathForlib(filePath: string) {
-  const newFilepath = path.relative(__dirname, filePath).replace(FIRST_PATH_SEGMENT, PATHS.dest.dist.lib);
-  return slash(newFilepath);
+  const relPath = slash(path.relative(__dirname, filePath));
+  return path.dirname(relPath).replace(FIRST_PATH_SEGMENT, PATHS.dest.dist.lib);
 }
 
 function startKarma(singleRun: boolean, cb: Function) {
@@ -183,7 +191,7 @@ gulp.task('index', () => {
     .pipe(inject(libStream, {
       name: 'lib',
       transform: function(filepath) {
-        arguments[0] = filepath.replace(FIRST_PATH_SEGMENT, '/libs');
+        arguments[0] = filepath.replace(FIRST_PATH_SEGMENT, '/lib');
         return inject.transform.apply(inject.transform, arguments);
       }
     }))
@@ -196,7 +204,7 @@ gulp.task('lint', ['tsLint']);
 
 gulp.task('ts', ['clean.dist'], (cb) => compileTs(PATHS.src.custom.tsApp, TSC_APP_OPTS, cb));
 
-gulp.task('ts.w', ['tsLint.w', 'clean.dist'], () => compileTsWatch(PATHS.src.custom.tsApp, TSC_APP_OPTS));
+gulp.task('ts.w', ['tsLint.w', 'clean.dist'], (cb) => compileTsWatch(PATHS.src.custom.tsApp, TSC_APP_OPTS));
 
 gulp.task('test.build', ['clean.test'], (cb) => compileTs(PATHS.src.custom.test, TSC_TEST_OPTS, cb));
 
@@ -205,8 +213,6 @@ gulp.task('test.build.w', ['tsLint.w', 'clean.test'], (cb) => compileTsWatch(PAT
 gulp.task('karma', ['clean.coverage'], (cb) => startKarma(true, cb));
 
 gulp.task('test', seq('test.build', 'karma'));
-
-gulp.task('serve', seq('build.w', 'server.w'));
 
 gulp.task('build', ['clean.dist'], seq(
   [
@@ -222,7 +228,7 @@ gulp.task('build', ['clean.dist'], seq(
   ])
 );
 
-gulp.task('reload.w', () => gulp.watch(`${PATHS.dest.dist}/**/*`, (evt: any) => notifyLiveReload(evt.path)));
+gulp.task('reload.w', () => gulp.watch(`${PATHS.dest.dist.base}/**/*`, (evt: any) => notifyLiveReload(evt.path)));
 
 gulp.task('build.w', ['clean.dist'], seq(
   [
@@ -240,7 +246,7 @@ gulp.task('build.w', ['clean.dist'], seq(
 
 gulp.task('server.w', (done) =>
   nodemon({
-    script: 'server/boot.ts',
+    script: 'server/bootstrap.ts',
     watch: 'server',
     ext: 'ts',
     env: { 'APP_ENVIRONMENT': process.env.APP_ENVIRONMENT },
@@ -256,6 +262,8 @@ gulp.task('server.w', (done) =>
     done();
   })
 );
+
+gulp.task('serve', seq('build.w', 'server.w'));
 
 // --------------
 // Clean.

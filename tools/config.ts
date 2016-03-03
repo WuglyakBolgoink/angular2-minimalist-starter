@@ -6,9 +6,9 @@ const CWD = slash(process.cwd());
 
 // --------------
 // Configuration.
-process.env.APP_ENVIRONMENT = argv['env'] || process.env.APP_ENVIRONMENT || 'development';
+process.env.APP_ENVIRONMENT = argv['env'] || process.env.APP_ENVIRONMENT || 'dev';
 
-export const IS_PROD = process.env.APP_ENVIRONMENT === 'production';
+export const IS_PROD = process.env.APP_ENVIRONMENT === 'prod';
 
 export const PORT = 5555;
 export const LIVE_RELOAD_PORT = 4002;
@@ -31,6 +31,8 @@ export const PATHS = {
      js: [
        `${LIB_SRC}/es6-shim/es6-shim.js`,
        `${LIB_SRC}/systemjs/dist/system.src.js`,
+       `${LIB_SRC}/rxjs/bundles/Rx.js`,
+       `${LIB_SRC}/reflect-metadata/Reflect.js`,
   
        `${LIB_SRC}/angular2/bundles/angular2-polyfills.js`,
        `${LIB_SRC}/angular2/bundles/angular2.js`,
@@ -75,7 +77,7 @@ export const PATHS = {
    dist: {
      base: CLIENT_DEST_BASE,
      app: `${CLIENT_DEST_BASE}/app`,
-     lib: `${CLIENT_DEST_BASE}/libs`,
+     lib: `${CLIENT_DEST_BASE}/lib`,
      font: `${CLIENT_DEST_BASE}/fonts`
    }
   }
