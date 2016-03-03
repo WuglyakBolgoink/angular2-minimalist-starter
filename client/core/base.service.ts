@@ -1,4 +1,4 @@
-import {Http, Response} from 'angular2/http';
+import {Response} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 
 import {OPTS_REQ_JSON} from './web.util';

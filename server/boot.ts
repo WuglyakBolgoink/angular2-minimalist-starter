@@ -24,7 +24,7 @@ server.get('/api/**', (req, res, next) => {
 server.use('/api/contact', contactRouter);
 
 server.get(APP_BASE + '*', (req, res) => {
-  res.sendFile(INDEX_DEST_PATH)
+  res.sendFile(INDEX_DEST_PATH);
 });
 
 server.listen(PORT);

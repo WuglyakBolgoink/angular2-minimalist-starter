@@ -6,7 +6,6 @@ inject,
 it,
 AsyncTestCompleter
 } from 'angular2/testing_internal';
-import {Component, View} from 'angular2/core';
 
 import {HomeComponent} from './home.component';
 

@@ -6,11 +6,7 @@
       "statements"
     ],
     "ban": [
-      false,
-      [
-        "Array",
-        "isArray"
-      ]
+      false
     ],
     "class-name": true,
     "comment-format": [
@@ -47,7 +43,6 @@
     "no-console": [
       true,
       "debug",
-      "log",
       "info",
       "time",
       "timeEnd",
@@ -62,10 +57,10 @@
     "no-eval": true,
     "no-inferrable-types": true,
     "no-internal-module": true,
-    "no-null-keyword": true,
+    "no-null-keyword": false,
     "no-require-imports": true,
     "no-shadowed-variable": false,
-    "no-string-literal": true,
+    "no-string-literal": false,
     "no-switch-case-fall-through": false,
     "no-trailing-whitespace": false,
     "no-unreachable": true,

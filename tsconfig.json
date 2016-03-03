@@ -1,21 +1,19 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "module": "system",
+    "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "outFile": "dist/app/app.bundle.js"
+    "sourceMap": true
   },
   "compileOnSave": false,
   "exclude": [
     "dist",
     "node_modules",
-    "test",
     "tmp",
     "typings/browser.d.ts",
     "typings/browser",

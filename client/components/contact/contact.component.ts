@@ -1,8 +1,6 @@
 import {COMMON_DIRECTIVES, COMMON_PIPES} from 'angular2/common';
 import {Component} from 'angular2/core';
 
-import {Observable} from 'rxjs/Observable';
-
 import {Contact} from '../../core/dto';
 import {ContactService} from './contact.service';
 import {ContactFormComponent} from './contact-form.component';

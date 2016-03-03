@@ -1,40 +1,42 @@
-const gulp = require('gulp');
-const fse = require('fs-extra');
-const path = require('path');
-const seq = require('gulp-sequence');
-const template = require('gulp-template');
-const tsLint = require('gulp-tslint');
-const tsLintStylish = require('gulp-tslint-stylish');
-const nodemon = require('gulp-nodemon');
-const karma = require('karma');
-const sourcemaps = require('gulp-sourcemaps');
-const inject = require('gulp-inject');
-const slash = require('slash');
-const tinylr = require('tiny-lr');
-const openResource = require('open');
-const uglify = require('gulp-uglify');
-const cssnano = require('gulp-cssnano');
-const gulpIf = require('gulp-if');
-const spawn = require('child_process').spawn;
-const through2 = require('through2');
-const readline = require('readline');
-const loadCoverage = require('remap-istanbul/lib/loadCoverage');
-const remap = require('remap-istanbul/lib/remap');
-const writeReport = require('remap-istanbul/lib/writeReport');
+import * as gulp from 'gulp';
+import * as fse from 'fs-extra';
+import * as path from 'path';
+import * as seq from 'gulp-sequence';
+import * as template from 'gulp-template';
+import * as tsLint from 'gulp-tslint';
+import * as tsLintStylish from 'gulp-tslint-stylish';
+import * as nodemon from 'gulp-nodemon';
+import * as karma from 'karma';
+import * as sourcemaps from 'gulp-sourcemaps';
+import * as inject from 'gulp-inject';
+import * as slash from 'slash';
+import * as tinylr from 'tiny-lr';
+import * as openResource from 'open';
+import * as uglify from 'gulp-uglify';
+import * as cssnano from 'gulp-cssnano';
+import * as gulpIf from 'gulp-if';
+import * as childProcess from 'child_process';
+import * as through2 from 'through2';
+// import * as inlineNg2Template from 'gulp-inline-ng2-template';
+import * as loadCoverage from 'remap-istanbul/lib/loadCoverage';
+import * as remap from 'remap-istanbul/lib/remap';
+import * as writeReport from 'remap-istanbul/lib/writeReport';
 
-import {PATHS, TSC_APP_OPTS, TSC_TEST_OPTS, PORT, LIVE_RELOAD_PORT, IS_PROD} from './tools/config';
+import {PATHS, TSC_APP_OPTS, TSC_TEST_OPTS, PORT, LIVE_RELOAD_PORT, APP_BASE, IS_PROD} from './tools/config';
+
+const spawn = childProcess.spawn;
 
 const FIRST_PATH_SEGMENT = /^\/?[^\/]*/;
 
-function notifyLiveReload(modifiedFile:string) {
+function notifyLiveReload(modifiedFile: string) {
   tinylr.changed(modifiedFile);
 }
 
-function compileTs(src:string | string[], tscOpts:Object, dest:string, cb?:Function) {
+function compileTs(src: string | string[], tscOpts: Object, cb?: Function) {
   const _meta = compileTs['_meta'];
   mapTsFiles(src, (files) => {
     const tscArgs = mapTscArgs(tscOpts);
-    const procKey = `${src}_${dest}`;
+    const procKey = `${src}`;
     if (_meta[procKey]) {
       _meta[procKey].kill();
     }
@@ -55,21 +57,21 @@ function compileTs(src:string | string[], tscOpts:Object, dest:string, cb?:Funct
 
 compileTs['_meta'] = {};
 
-function compileTsWatch(src:string | string[], tscOpts:Object, dest:string, cb?:Function) {
-  const params = Object.assign({}, tscOpts, {watch: true});
-  compileTs(src, params, dest, cb);
-  gulp.watch(src, (evt:any) => {
+function compileTsWatch(src: string | string[], tscOpts: Object, cb?: Function) {
+  const params = Object.assign({}, tscOpts, { watch: true });
+  compileTs(src, params, cb);
+  gulp.watch(src, (evt: any) => {
     if (evt.type !== 'changed') {
       console.log(`File ${evt.path} ${evt.type}. Full Compilation...`);
-      compileTs(src, params, dest);
+      compileTs(src, params);
     }
   });
 }
 
-function mapTsFiles(src:string | string[], cb:Function) {
+function mapTsFiles(src: string | string[], cb: Function) {
   const lines = [];
-  return gulp.src(src, {read: false})
-    .pipe(through2.obj(function (chunk, enc, callback) {
+  return gulp.src(src, { read: false })
+    .pipe(through2.obj(function(chunk, enc, callback) {
       this.push(slash(path.relative(__dirname, chunk.path)));
       callback();
     }))
@@ -77,10 +79,10 @@ function mapTsFiles(src:string | string[], cb:Function) {
     .on('end', () => cb(lines));
 }
 
-function mapTscArgs(tscOpts:Object) {
+function mapTscArgs(tscOpts: Object) {
   const resp = [];
   for (let prop in tscOpts) {
-    if (tscOpts[prop] === undefined || tscOpts[prop] === null || tscOpts[prop] === false) {
+    if (tscOpts[prop] === undefined || tscOpts[prop] === false) {
       continue;
     }
     resp.push(`--${prop}`);
@@ -91,18 +93,18 @@ function mapTscArgs(tscOpts:Object) {
   return resp;
 }
 
-function lintTs(src:string | string[]) {
+function lintTs(src: string | string[]) {
   return gulp.src(src)
     .pipe(tsLint())
-    .pipe(tsLint.report(tsLintStylish, {emitError: false}));
+    .pipe(tsLint.report(tsLintStylish, { emitError: false }));
 }
 
-function mapDestPathForlib(filepath:string) {
-  const newFilepath = path.relative(__dirname, filepath).replace(FIRST_PATH_SEGMENT, PATHS.dest.dist.lib);
-  return slash(path.dirname(newFilepath));
+function mapDestPathForlib(filePath: string) {
+  const newFilepath = path.relative(__dirname, filePath).replace(FIRST_PATH_SEGMENT, PATHS.dest.dist.lib);
+  return slash(newFilepath);
 }
 
-function startKarma(singleRun:boolean, cb:Function) {
+function startKarma(singleRun: boolean, cb: Function) {
   new karma.Server({
     configFile: `${PATHS.cwd}/karma.conf.js`,
     singleRun: singleRun
@@ -123,26 +125,7 @@ function remapCoverage() {
   console.log('Remapping coverage to TypeScript format...');
   const coverage = loadCoverage(`${PATHS.dest.coverage}/coverage-final.json`);
   const collector = remap(coverage);
-  const repHtml = writeReport(collector, 'html', `${PATHS.dest.coverage}/remap/coverage-html`);
-  const repLcov = writeReport(collector, 'lcovonly', `${PATHS.dest.coverage}/remap/coverage-lcov.info`).then(() => {
-
-    const newFile = `${PATHS.dest.coverage}/remap/coverage-lcov-abs-paths.info`;
-
-    fse.removeSync(newFile);
-
-    readline.createInterface({
-      input: fse.createReadStream(`${PATHS.dest.coverage}/remap/coverage-lcov.info`)
-    }).on('line', (line) => {
-      let newLine;
-      if (line.startsWith('SF:')) {
-        newLine = slash(line).replace(/^SF:/, `SF:${PATHS.cwd}/`);
-      } else {
-        newLine = line;
-      }
-      fse.appendFileSync(newFile, newLine + '\n');
-    });
-  });
-  return Promise.all([repHtml, repLcov]);
+  return writeReport(collector, 'html', `${PATHS.dest.coverage}/remap/coverage-html`);
 }
 
 gulp.task('cssLib', () =>
@@ -150,7 +133,7 @@ gulp.task('cssLib', () =>
     .pipe(gulpIf(IS_PROD, sourcemaps.init()))
     .pipe(gulpIf(IS_PROD, cssnano()))
     .pipe(gulpIf(IS_PROD, sourcemaps.write()))
-    .pipe(gulp.dest((file) => mapDestPathForlib(file.path)))
+    .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
 gulp.task('font', () =>
@@ -160,7 +143,7 @@ gulp.task('font', () =>
 
 gulp.task('jsCopyOnly', () =>
   gulp.src(PATHS.src.vendor.jsCopyOnly)
-    .pipe(gulp.dest((file) => mapDestPathForlib(file.path)))
+    .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
 gulp.task('jsLib', () =>
@@ -168,42 +151,62 @@ gulp.task('jsLib', () =>
     .pipe(gulpIf(IS_PROD, sourcemaps.init()))
     .pipe(gulpIf(IS_PROD, uglify()))
     .pipe(gulpIf(IS_PROD, sourcemaps.write()))
-    .pipe(gulp.dest((file) => mapDestPathForlib(file.path)))
+    .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
-gulp.task('css.build', () =>
+gulp.task('css', () =>
   gulp.src(PATHS.src.custom.css)
-    .pipe(gulp.dest(PATHS.dest.dist.component))
+    .pipe(gulp.dest(PATHS.dest.dist.app))
 );
 
+gulp.task('css.w', ['css'], () => gulp.watch(PATHS.src.custom.css, ['css']));
 
-gulp.task('css.watch', ['css'], () => gulp.watch(PATHS.src.custom.css, ['css']));
+gulp.task('tpl', () =>
+  gulp.src(PATHS.src.custom.tpl)
+    .pipe(gulp.dest(PATHS.dest.dist.app))
+);
+
+gulp.task('tpl.w', ['tpl'], () => gulp.watch(PATHS.src.custom.tpl, ['tpl']));
 
 // --------------
 // Lint.
 gulp.task('tsLint', () => lintTs(PATHS.src.custom.tsLint));
 
-gulp.task('tsLint.watch', ['tsLint'], () => gulp.watch(PATHS.src.custom.tsLint, (evt:any) => lintTs(evt.path)));
+gulp.task('tsLint.w', ['tsLint'], () => gulp.watch(PATHS.src.custom.tsLint, (evt: any) => lintTs(evt.path)));
 
 gulp.task('index', () => {
 
-  const libStream = gulp.src(PATHS.src.vendor.css.concat(PATHS.src.vendor.js), {read: false});
+  const libStream = gulp.src(PATHS.src.vendor.css.concat(PATHS.src.vendor.js), { read: false });
 
   return gulp.src(PATHS.src.custom.index)
-    .pipe(template({IS_PROD}))
+    .pipe(template({ APP_BASE, IS_PROD }))
     .pipe(inject(libStream, {
       name: 'lib',
-      transform: function (filepath) {
-        arguments[0] = filepath.replace(FIRST_PATH_SEGMENT, '/lib');
+      transform: function(filepath) {
+        arguments[0] = filepath.replace(FIRST_PATH_SEGMENT, '/libs');
         return inject.transform.apply(inject.transform, arguments);
       }
     }))
-    .pipe(gulp.dest(PATHS.dest.dist));
+    .pipe(gulp.dest(PATHS.dest.dist.base));
 });
 
-gulp.task('index.watch', ['index'], () => gulp.watch(PATHS.src.custom.index, ['index']));
+gulp.task('index.w', ['index'], () => gulp.watch(PATHS.src.custom.index, ['index']));
 
 gulp.task('lint', ['tsLint']);
+
+gulp.task('ts', ['clean.dist'], (cb) => compileTs(PATHS.src.custom.tsApp, TSC_APP_OPTS, cb));
+
+gulp.task('ts.w', ['tsLint.w', 'clean.dist'], () => compileTsWatch(PATHS.src.custom.tsApp, TSC_APP_OPTS));
+
+gulp.task('test.build', ['clean.test'], (cb) => compileTs(PATHS.src.custom.test, TSC_TEST_OPTS, cb));
+
+gulp.task('test.build.w', ['tsLint.w', 'clean.test'], (cb) => compileTsWatch(PATHS.src.custom.test, TSC_TEST_OPTS));
+
+gulp.task('karma', ['clean.coverage'], (cb) => startKarma(true, cb));
+
+gulp.task('test', seq('test.build', 'karma'));
+
+gulp.task('serve', seq('build.w', 'server.w'));
 
 gulp.task('build', ['clean.dist'], seq(
   [
@@ -219,30 +222,28 @@ gulp.task('build', ['clean.dist'], seq(
   ])
 );
 
-gulp.task('reload.watch', () => gulp.watch(`${PATHS.dest.dist}/**/*`, (evt:any) => notifyLiveReload(evt.path)));
+gulp.task('reload.w', () => gulp.watch(`${PATHS.dest.dist}/**/*`, (evt: any) => notifyLiveReload(evt.path)));
 
-gulp.task('build.watch', ['clean.dist'], seq(
+gulp.task('build.w', ['clean.dist'], seq(
   [
     'jsCopyOnly',
     'cssLib',
     'font',
     'jsLib',
-    'css.watch',
-    'tpl.watch',
-    'ts.watch',
-    'index.watch'
+    'css.w',
+    'tpl.w',
+    'ts.w',
+    'index.w'
   ],
-  'reload.watch'
+  'reload.w'
 ));
 
-// --------------
-// Serve
-gulp.task('server.watch', (done) =>
+gulp.task('server.w', (done) =>
   nodemon({
-    script: 'server/app.js',
+    script: 'server/boot.ts',
     watch: 'server',
     ext: 'ts',
-    env: {'APP_ENVIRONMENT': process.env.APP_ENVIRONMENT},
+    env: { 'APP_ENVIRONMENT': process.env.APP_ENVIRONMENT },
     execMap: {
       ts: 'ts-node'
     }
@@ -256,26 +257,10 @@ gulp.task('server.watch', (done) =>
   })
 );
 
-gulp.task('serve', seq('build.watch', 'server.watch'));
-
-// --------------
-// Test
-gulp.task('karma', ['clean.coverage'], (cb) => startKarma(true, cb));
-
-gulp.task('ts', ['clean.dist'], (cb) => compileTs(PATHS.src.custom.tsApp, TSC_APP_OPTS, PATHS.dest.dist.app, cb));
-
-gulp.task('ts.watch', ['tsLint.watch', 'clean.dist'], () => compileTsWatch(PATHS.src.custom.tsApp, TSC_APP_OPTS, PATHS.dest.dist.app));
-
-gulp.task('test.build', ['clean.test'], (cb) => compileTs(PATHS.src.custom.test, TSC_TEST_OPTS, PATHS.dest.test, cb));
-
-gulp.task('test.build.watch', ['tsLint.watch', 'clean.test'], (cb) => compileTsWatch(PATHS.src.custom.test, TSC_TEST_OPTS, PATHS.dest.test));
-
-gulp.task('test', seq('test.build', 'karma'));
-
 // --------------
 // Clean.
 gulp.task('clean', seq('clean.dist', 'clean.test', 'clean.coverage'));
-gulp.task('clean.dist', (done) => fse.remove(PATHS.dest.dist, done));
+gulp.task('clean.dist', (done) => fse.remove(PATHS.dest.dist.base, done));
 gulp.task('clean.test', (done) => fse.remove(PATHS.dest.test, done));
 gulp.task('clean.coverage', (done) => fse.remove(PATHS.dest.coverage, done));
 

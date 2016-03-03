@@ -7,7 +7,7 @@ inject,
 it,
 beforeEach
 } from 'angular2/testing_internal';
-import {Component, View, provide} from 'angular2/core';
+import {provide} from 'angular2/core';
 
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
@@ -26,7 +26,7 @@ export function main() {
 
     beforeEach(() => {
 
-      contactService = new ContactService(null);
+      contactService = new ContactService(undefined);
 
       spyOn(contactService, 'find').and.callFake(() => Observable.of(contacts));
 

@@ -1,12 +1,19 @@
 // Karma configuration
 // Generated on Wed Jul 15 2015 09:44:02 GMT+0200 (Romance Daylight Time)
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine', 'source-map-support'],
+    frameworks: ['jasmine'],
+    
+    // preprocess matching files before serving them to the browser
+    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+    preprocessors: {
+      '**/*.js': ['sourcemap'],
+      'tmp/test/**/!(*_spec|*_mock).js': ['coverage'],
+    },
 
     // list of files / patterns to load in the browser
     files: [
@@ -14,19 +21,18 @@ module.exports = function(config) {
       'node_modules/es6-shim/es6-shim.js',
       'node_modules/systemjs/dist/system-polyfills.js', // PhantomJS2 (and possibly others) might require it
 
-      // zone-microtask must be included first as it contains a Promise monkey patch
-      'node_modules/zone.js/dist/zone-microtask.js',
-      'node_modules/zone.js/dist/long-stack-trace-zone.js',
-      'node_modules/zone.js/dist/jasmine-patch.js',
+      'node_modules/angular2/bundles/angular2-polyfills.js',
+      'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
 
       'node_modules/systemjs/dist/system.src.js',
-      {pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false, served: true},
+      { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false, served: true },
       'node_modules/reflect-metadata/Reflect.js',   
+    // beta.7 IE 11 polyfills from https://github.com/angular/angular/issues/7144
       
       'tools/build/file2modulename.js',
-      {pattern: 'node_modules/angular2/**/*.js', included: false, watched: false},
+      { pattern: 'node_modules/angular2/**/*.js', included: false, watched: false },
 
-      {pattern: 'test/**', included: false, watched: true},
+      { pattern: 'test/**', included: false, watched: true },
 
       'test-main.js'
     ],
@@ -36,6 +42,9 @@ module.exports = function(config) {
       'node_modules/angular2/bundles/**',
       'node_modules/angular2/es6/**',
       'node_modules/angular2/examples/**',
+      'node_modules/angular2/src/**',
+      'node_modules/angular2/ts/**',
+      'node_modules/angular2/typings/**',
       'node_modules/angular2/**/*_spec.js',
       'node_modules/angular2/**/*.min.js',
       'node_modules/rxjs/bundles/**',
@@ -45,10 +54,28 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha'],
+    reporters: ['mocha', 'coverage'],
+
+    coverageReporter: {
+      dir: 'tmp/coverage',
+      reporters: [
+        { type: 'text-summary' },
+        { type: 'html' }
+      ]
+    },
 
     // web server port
     port: 9876,
+    
+    // enable / disable colors in the output (reporters and logs)
+    colors: true,
+    
+    // level of logging
+    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    logLevel: config.LOG_INFO,
+    
+    // enable / disable watching file and executing tests whenever any file changes
+    autoWatch: true,
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
