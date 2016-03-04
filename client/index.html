@@ -26,12 +26,7 @@
   <!-- endinject -->
 
   <script>
-    System.config({
-      paths: {
-        'components/*': 'app/components/*'
-      }
-    });
-    System.import('app/app.bundle.js').then(function () {
+    System.import('app.bundle.js').then(function () {
       return System.import('bootstrap');
     }).catch(console.error.bind(console));
   </script>

@@ -22,7 +22,7 @@ import * as loadCoverage from 'remap-istanbul/lib/loadCoverage';
 import * as remap from 'remap-istanbul/lib/remap';
 import * as writeReport from 'remap-istanbul/lib/writeReport';
 
-import {PATHS, TSC_APP_OPTS, TSC_TEST_OPTS, PORT, LIVE_RELOAD_PORT, APP_BASE, IS_PROD, DIST_JS_BUNDLE} from './tools/config';
+import {PATHS, TSC_APP_OPTS, TSC_TEST_OPTS, PORT, LIVE_RELOAD_PORT, APP_BASE, IS_PROD} from './tools/config';
 
 const spawn = childProcess.spawn;
 
@@ -156,14 +156,14 @@ gulp.task('jsLib', () =>
 
 gulp.task('css', () =>
   gulp.src(PATHS.src.custom.css)
-    .pipe(gulp.dest(PATHS.dest.dist.app))
+    .pipe(gulp.dest(PATHS.dest.dist.base))
 );
 
 gulp.task('css.w', ['css'], () => gulp.watch(PATHS.src.custom.css, ['css']));
 
 gulp.task('tpl', () =>
   gulp.src(PATHS.src.custom.tpl)
-    .pipe(gulp.dest(PATHS.dest.dist.app))
+    .pipe(gulp.dest(PATHS.dest.dist.base))
 );
 
 gulp.task('tpl.w', ['tpl'], () => gulp.watch(PATHS.src.custom.tpl, ['tpl']));
@@ -251,7 +251,7 @@ gulp.task('server.w', (done) =>
     const tinylrObj = tinylr();
     tinylrObj.listen(LIVE_RELOAD_PORT);
     const intervalId = setInterval(() => {
-      const existsDist = fse.existsSync(DIST_JS_BUNDLE);
+      const existsDist = fse.existsSync(PATHS.dest.dist.appBundle);
       if (existsDist) {
         clearInterval(intervalId);
         setTimeout(() => {
