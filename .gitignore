@@ -3,9 +3,8 @@
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git-
 node_modules
 
-dist
-test
-tmp
-typings
-.idea
+/dist
+/tmp
+/typings
+/.idea
 .DS_Store
