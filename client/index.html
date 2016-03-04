@@ -27,19 +27,11 @@
 
   <script>
     System.config({
-      defaultJSExtensions: true,
-      format: 'register',      
-      packages: {
-        'app': {
-          format: 'register'
-        }
-      },
       paths: {
-        'rxjs/*': 'lib/rxjs/*'
+        'components/*': 'app/components/*'
       }
     });
-
-    System.import('app/app.bundle').then(function () {
+    System.import('app/app.bundle.js').then(function () {
       return System.import('bootstrap');
     }).catch(console.error.bind(console));
   </script>

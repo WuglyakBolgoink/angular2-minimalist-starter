@@ -12,8 +12,9 @@ import {Notification} from '../../core/dto';
 
 @Component({
   selector: 'app',
-  templateUrl: './components/app/app.component.html',
-  styleUrls: ['./components/app/app.component.css'],
+  moduleId: __moduleName,
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.css'],
   directives: [ROUTER_DIRECTIVES],
   encapsulation: ViewEncapsulation.None
 })

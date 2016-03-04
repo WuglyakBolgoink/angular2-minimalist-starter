@@ -21,6 +21,7 @@ const CLIENT_DEST_BASE = 'dist';
 const LIB_SRC = 'node_modules';
 const TS_LIBS = [
   'typings/main/**/*.d.ts',
+  'tools/typings/module.d.ts'
 ];
 
 export const PATHS = {
@@ -92,7 +93,9 @@ TSC_OPTS.forceConsistentCasingInFileNames = true;
 TSC_OPTS.pretty = true;
 TSC_OPTS.module = 'system';
 
-export const TSC_APP_OPTS = Object.assign({}, TSC_OPTS, {outFile: `${PATHS.dest.dist.app}/app.bundle.js`});
+export const DIST_JS_BUNDLE = `${PATHS.dest.dist.app}/app.bundle.js`;
+
+export const TSC_APP_OPTS = Object.assign({}, TSC_OPTS, {outFile: DIST_JS_BUNDLE});
 export const TSC_TEST_OPTS = Object.assign({}, TSC_OPTS, {outDir: 'tmp/test'});
 
 console.log('process.env.APP_ENVIRONMENT: ', process.env.APP_ENVIRONMENT);

@@ -22,7 +22,7 @@ import * as loadCoverage from 'remap-istanbul/lib/loadCoverage';
 import * as remap from 'remap-istanbul/lib/remap';
 import * as writeReport from 'remap-istanbul/lib/writeReport';
 
-import {PATHS, TSC_APP_OPTS, TSC_TEST_OPTS, PORT, LIVE_RELOAD_PORT, APP_BASE, IS_PROD} from './tools/config';
+import {PATHS, TSC_APP_OPTS, TSC_TEST_OPTS, PORT, LIVE_RELOAD_PORT, APP_BASE, IS_PROD, DIST_JS_BUNDLE} from './tools/config';
 
 const spawn = childProcess.spawn;
 
@@ -40,24 +40,16 @@ function compileTs(src: string | string[], tscOpts: Object, cb?: Function) {
     if (_meta[procKey]) {
       _meta[procKey].kill();
     }
-    let completeNotified = false;
     _meta[procKey] = spawn(`node`, [`./node_modules/typescript/lib/tsc.js`, ...tscArgs, ...files]);
-    _meta[procKey].stdout.on('data', (data) => {
-      console.log(data.toString());
-      if (!completeNotified && cb) {
-        cb();
-        completeNotified = true;        
-      }
-    });
+    _meta[procKey].stdout.on('data', (data) => console.log(data.toString()));
     _meta[procKey].stderr.on('data', (data) => console.error(data.toString()));
     _meta[procKey].on('exit', (code) => {
       let error;
       if (code) {
         error = new Error(`Error #${code} while compiling ts files.`);
       }
-      if (!completeNotified && cb) {
+      if (cb) {
         cb(error);
-        completeNotified = true;
       }
     });
   });
@@ -146,7 +138,7 @@ gulp.task('cssLib', () =>
 
 gulp.task('font', () =>
   gulp.src(PATHS.src.vendor.font)
-    .pipe(gulp.dest(PATHS.dest.dist.font))
+    .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
 gulp.task('jsCopyOnly', () =>
@@ -255,11 +247,19 @@ gulp.task('server.w', (done) =>
     }
   }).on('start', () => {
     console.log('Server started');
-  }).once('start', () => {
-    openResource(`http://localhost:${PORT}`);
+  }).once('start', () => {    
     const tinylrObj = tinylr();
     tinylrObj.listen(LIVE_RELOAD_PORT);
-    done();
+    const intervalId = setInterval(() => {
+      const existsDist = fse.existsSync(DIST_JS_BUNDLE);
+      if (existsDist) {
+        clearInterval(intervalId);
+        setTimeout(() => {
+          openResource(`http://localhost:${PORT}`);
+          done();
+        }, 3000);        
+      }
+    }, 500);
   })
 );
 

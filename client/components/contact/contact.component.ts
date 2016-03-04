@@ -8,7 +8,8 @@ import {CustomOrderByPipe} from '../../pipes/CustomOrderByPipe';
 
 @Component({
   selector: 'contact',
-  templateUrl: './components/contact/contact.component.html',
+  moduleId: __moduleName,
+  templateUrl: 'contact.component.html',
   directives: [ContactFormComponent, COMMON_DIRECTIVES],
   pipes: [CustomOrderByPipe, COMMON_PIPES],
   providers: []
