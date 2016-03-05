@@ -30,6 +30,7 @@ export const PATHS = {
       js: [
         `${NM}/es6-shim/es6-shim.js`,
         `${NM}/systemjs/dist/system-register-only.src.js`,
+        `${NM}/reflect-metadata/Reflect.js`,
         `${NM}/rxjs/bundles/Rx.js`,
         `${NM}/angular2/bundles/angular2-polyfills.js`,
         `${NM}/angular2/bundles/angular2.js`,
