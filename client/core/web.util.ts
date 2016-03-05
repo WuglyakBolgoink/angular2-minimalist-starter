@@ -5,11 +5,11 @@ const EMAIL_REG = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2
 
 
 export const OPTS_REQ_JSON = {
-	headers: new Headers({
-		'Content-Type': 'application/json'
-	})
+  headers: new Headers({
+    'Content-Type': 'application/json'
+  })
 };
 
 export function validateEmail(control: Control) {
-    return EMAIL_REG.test(control.value) ? null : {validEmail: true};
+  return EMAIL_REG.test(control.value) ? undefined : { validEmail: true };
 }

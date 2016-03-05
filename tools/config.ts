@@ -1,75 +1,102 @@
-import * as argv from 'yargs';
-import * as fs from 'fs';
+import * as yargs from 'yargs';
+import * as slash from 'slash';
+import * as fse from 'fs-extra';
 
-const CWD = process.cwd();
-const pkg = JSON.parse(fs.readFileSync(`${CWD}/package.json`, 'utf8'));
+const argv = yargs.argv;
+const CWD = slash(process.cwd());
 
-// --------------
-// Configuration.
-const ENV: string = argv['env'] || process.env.profile || 'dev';
-process.env.profile = ENV;
+process.env.APP_ENVIRONMENT = argv['env'] || process.env.APP_ENVIRONMENT || 'dev';
 
-export const PORT: number = argv['port'] || 5555;
-export const LIVE_RELOAD_PORT: number = argv['reload-port'] || 4002;
-export const APP_BASE: string = argv['base'] || '/';
-export const APP_VERSION: string = pkg.version;
+export const IS_PROD = process.env.APP_ENVIRONMENT === 'prod';
 
+export const PORT = 5555;
+export const LIVE_RELOAD_PORT = 4002;
+export const APP_BASE = '/';
+
+const TMP_BASE = 'tmp';
 const CLIENT_SRC_BASE = 'client';
 const CLIENT_DEST_BASE = 'dist';
-export const LIB_DEST             = `${CLIENT_DEST_BASE}/lib`;
+const NM = 'node_modules';
+const INDEX_HTML = `${CLIENT_SRC_BASE}/index.html`;
 
-
-export const PATH = {
+export const PATHS = {
   cwd: CWD,
-  tslint: [
-    `${CLIENT_SRC_BASE}/**/*.ts`,
-    `${CWD}/server/**/*.ts`,
-    `tools/**/*.ts`,
-    `!tools/typings/**`,
-    `${CWD}/gulpfile.ts`
-  ],
   src: {
-    base: CLIENT_SRC_BASE,
-    deps: [
-      {src: 'node_modules/es6-shim/es6-shim.min.js', dest: LIB_DEST, inject: true},
-      {src: 'node_modules/systemjs/dist/system-polyfills.js', dest: LIB_DEST},
-      {src: 'node_modules/systemjs/dist/system.src.js', dest: LIB_DEST, inject: true},
-      { src: 'node_modules/angular2/bundles/angular2-polyfills.js', dest: LIB_DEST, inject: true },
-
-      {src: `${CLIENT_SRC_BASE}/system.config.js`, dest: LIB_DEST, inject: true},
-
-      {src: 'node_modules/angular2/bundles/angular2.js', dest: LIB_DEST, inject: true},
-      {src: 'node_modules/angular2/bundles/router.js', dest: LIB_DEST, inject: true},
-      {src: 'node_modules/angular2/bundles/http.js', dest: LIB_DEST, inject: true},
-
-      {src: 'node_modules/bootstrap/dist/css/bootstrap.min.css', dest: LIB_DEST, inject: true}
-    ],
-    font: [
-      'node_modules/bootstrap/dist/fonts/*'
-    ],
-    index: `${CLIENT_SRC_BASE}/index.html`,
-    tpl: `${CLIENT_SRC_BASE}/components/**/*.html`,
-    css: [
-      `${CLIENT_SRC_BASE}/components/**/*.css`,
-    ],
-    ts: [
-      `${CLIENT_SRC_BASE}/**/*.ts`,
-      `!${CLIENT_SRC_BASE}/**/*_spec.ts`
-    ]
+    vendor: {
+      js: [
+        `${NM}/es6-shim/es6-shim.js`,
+        `${NM}/systemjs/dist/system-register-only.src.js`,
+        `${NM}/rxjs/bundles/Rx.js`,
+        `${NM}/angular2/bundles/angular2-polyfills.js`,
+        `${NM}/angular2/bundles/angular2.js`,
+        `${NM}/angular2/bundles/router.js`,
+        `${NM}/angular2/bundles/http.js`,
+      ],
+      jsCopyOnly: [
+        `${NM}/systemjs/dist/system-polyfills.src.js`,
+      ],
+      font: [
+        `${NM}/bootstrap/dist/fonts/*`
+      ],
+      css: [
+        `${NM}/bootstrap/dist/css/bootstrap.css`
+      ]
+    },
+    custom: {
+      index: INDEX_HTML,
+      tpl: [
+        `${CLIENT_SRC_BASE}/**/*.html`,
+        `!${INDEX_HTML}`
+      ],
+      css: `${CLIENT_SRC_BASE}/**/*.css`,
+      tsApp: [
+        'typings/main/ambient/es6-shim/es6-shim.d.ts',
+        'tools/typings/module.d.ts',
+        `${CLIENT_SRC_BASE}/**/*.ts`,
+        `!${CLIENT_SRC_BASE}/**/*_spec.ts`
+      ],
+      tsLint: [
+        `gulpfile.ts`,
+        `tools/**/*.ts`,
+        `${CLIENT_SRC_BASE}/**/*.ts`,
+        `server/**/*.ts`,
+        '!tools/typings/**'
+      ],
+      test: `${CLIENT_SRC_BASE}/**/*_spec.ts`
+    }
   },
   dest: {
-    app: {
+    tmp: TMP_BASE,
+    test: `${TMP_BASE}/test`,
+    coverage: `${TMP_BASE}/coverage`,
+    dist: {
       base: CLIENT_DEST_BASE,
+      appBundle: `${CLIENT_DEST_BASE}/app.bundle.js`,
       lib: `${CLIENT_DEST_BASE}/lib`,
-      font: `${CLIENT_DEST_BASE}/fonts`,
-      component: `${CLIENT_DEST_BASE}/components`
-    },
-    test: 'test',
-    tmp: '.tmp'
+      font: `${CLIENT_DEST_BASE}/fonts`
+    }
   }
 };
 
-export const DEPS_SRC = PATH.src.deps.map(it => it.src);
 
+const TSC_OPTS = fse.readJsonSync(`${CWD}/tsconfig.json`).compilerOptions;
 
+// Setting the following options here since them cause issues on the VSC IDE.
+// TODO: move to tsconfig.json once IDE adds support for them.
+TSC_OPTS.forceConsistentCasingInFileNames = true;
+TSC_OPTS.pretty = true;
+TSC_OPTS.module = 'system';
 
+export const TSC_APP_OPTS = Object.assign({}, TSC_OPTS, {
+  outFile: PATHS.dest.dist.appBundle,
+  sourceMap: false,
+  inlineSourceMap: true,
+  inlineSources: true
+});
+
+export const TSC_TEST_OPTS = Object.assign({}, TSC_OPTS, {
+  outFile: undefined,
+  outDir: PATHS.dest.test
+});
+
+console.log('process.env.APP_ENVIRONMENT: ', process.env.APP_ENVIRONMENT);

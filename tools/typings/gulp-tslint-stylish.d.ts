@@ -1,5 +1,5 @@
 declare module 'gulp-tslint-stylish' {
-  const tslintStylish: any;
-  module tslintStylish {}
-  export = tslintStylish;
+  const gulpTslintStylish: string;
+  module gulpTslintStylish {}
+  export = gulpTslintStylish;
 }

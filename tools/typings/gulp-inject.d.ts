@@ -1,5 +1,5 @@
 declare module 'gulp-inject' {
-  const inject: any;
-  module inject {}
-  export = inject;
+  const gulpInject: any;
+  module gulpInject {}
+  export = gulpInject;
 }

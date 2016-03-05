@@ -1,8 +1,6 @@
 import {COMMON_DIRECTIVES, COMMON_PIPES} from 'angular2/common';
 import {Component} from 'angular2/core';
 
-import {Observable} from 'rxjs/Observable';
-
 import {Contact} from '../../core/dto';
 import {ContactService} from './contact.service';
 import {ContactFormComponent} from './contact-form.component';
@@ -10,7 +8,8 @@ import {CustomOrderByPipe} from '../../pipes/CustomOrderByPipe';
 
 @Component({
   selector: 'contact',
-  templateUrl: './components/contact/contact.component.html',
+  moduleId: __moduleName,
+  templateUrl: 'contact.component.html',
   directives: [ContactFormComponent, COMMON_DIRECTIVES],
   pipes: [CustomOrderByPipe, COMMON_PIPES],
   providers: []

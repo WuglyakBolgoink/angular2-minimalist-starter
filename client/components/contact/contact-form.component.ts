@@ -1,9 +1,6 @@
 import {COMMON_DIRECTIVES, COMMON_PIPES, Validators, ControlGroup, Control} from 'angular2/common';
 import {Component, Input, Output, EventEmitter} from 'angular2/core';
 
-
-import {Observable} from 'rxjs/Observable';
-
 import {validateEmail} from '../../core/web.util';
 import {Contact} from '../../core/dto';
 import {ContactService} from './contact.service';
@@ -11,7 +8,8 @@ import {Autofocus} from '../../directives/Autofocus';
 
 @Component({
   selector: 'contact-form',
-  templateUrl: './components/contact/contact-form.component.html',
+  moduleId: __moduleName,
+  templateUrl: 'contact-form.component.html',
   directives: [Autofocus, COMMON_DIRECTIVES],
   pipes: [COMMON_PIPES],
   providers: []
