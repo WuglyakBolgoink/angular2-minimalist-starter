@@ -17,6 +17,8 @@
 
 > Development utilities:
 * TypeScript (almost) everywhere
+* Incremental Compilation for TypeScript files
+* Single bundle file with source-maps for compiled bundle
 * Backend integration (rest API)
 * Live-reload when the source-code changes
 * Static analysis linter for TypeScript
