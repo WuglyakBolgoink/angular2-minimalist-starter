@@ -168,15 +168,14 @@ gulp.task('tpl', () =>
 
 gulp.task('tpl.w', ['tpl'], () => gulp.watch(PATHS.src.custom.tpl, ['tpl']));
 
-// --------------
-// Lint.
 gulp.task('tsLint', () => lintTs(PATHS.src.custom.tsLint));
 
 gulp.task('tsLint.w', ['tsLint'], () => gulp.watch(PATHS.src.custom.tsLint, (evt: any) => lintTs(evt.path)));
 
 gulp.task('index', () => {
 
-  const libStream = gulp.src(PATHS.src.vendor.css.concat(PATHS.src.vendor.js), { read: false });
+  const libs: string[] = PATHS.src.vendor.css.concat(PATHS.src.vendor.js);
+  const libStream = gulp.src(libs, { read: false });
 
   return gulp.src(PATHS.src.custom.index)
     .pipe(template({ APP_BASE, IS_PROD }))
@@ -247,7 +246,7 @@ gulp.task('server.w', (done) =>
     }
   }).on('start', () => {
     console.log('Server started');
-  }).once('start', () => {    
+  }).once('start', () => {
     const tinylrObj = tinylr();
     tinylrObj.listen(LIVE_RELOAD_PORT);
     const intervalId = setInterval(() => {
@@ -257,7 +256,7 @@ gulp.task('server.w', (done) =>
         setTimeout(() => {
           openResource(`http://localhost:${PORT}`);
           done();
-        }, 3000);        
+        }, 3000);
       }
     }, 500);
   })
@@ -265,8 +264,6 @@ gulp.task('server.w', (done) =>
 
 gulp.task('serve', seq('build.w', 'server.w'));
 
-// --------------
-// Clean.
 gulp.task('clean', seq('clean.dist', 'clean.test', 'clean.coverage'));
 gulp.task('clean.dist', (done) => fse.remove(PATHS.dest.dist.base, done));
 gulp.task('clean.test', (done) => fse.remove(PATHS.dest.test, done));

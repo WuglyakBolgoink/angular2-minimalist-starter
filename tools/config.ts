@@ -18,49 +18,45 @@ export const APP_BASE = '/';
 const TMP_BASE = 'tmp';
 const CLIENT_SRC_BASE = 'client';
 const CLIENT_DEST_BASE = 'dist';
-const LIB_SRC = 'node_modules';
-const TS_LIBS = [
-  'typings/main/**/*.d.ts',
-  'tools/typings/module.d.ts'
-];
+const NM = 'node_modules';
+const INDEX_HTML = `${CLIENT_SRC_BASE}/index.html`;
 
 export const PATHS = {
   cwd: CWD,
   src: {
     vendor: {
-      base: LIB_SRC,
       js: [
-        `${LIB_SRC}/es6-shim/es6-shim.js`,
-        `${LIB_SRC}/systemjs/dist/system.src.js`,
-        `${LIB_SRC}/rxjs/bundles/Rx.js`,
-        `${LIB_SRC}/reflect-metadata/Reflect.js`,
-
-        `${LIB_SRC}/angular2/bundles/angular2-polyfills.js`,
-        `${LIB_SRC}/angular2/bundles/angular2.js`,
-        `${LIB_SRC}/angular2/bundles/router.js`,
-        `${LIB_SRC}/angular2/bundles/http.js`,
+        `${NM}/es6-shim/es6-shim.js`,
+        `${NM}/systemjs/dist/system-register-only.src.js`,
+        `${NM}/rxjs/bundles/Rx.js`,
+        `${NM}/angular2/bundles/angular2-polyfills.js`,
+        `${NM}/angular2/bundles/angular2.js`,
+        `${NM}/angular2/bundles/router.js`,
+        `${NM}/angular2/bundles/http.js`,
       ],
       jsCopyOnly: [
-        `${LIB_SRC}/systemjs/dist/system-polyfills.src.js`,
+        `${NM}/systemjs/dist/system-polyfills.src.js`,
       ],
       font: [
-        `${LIB_SRC}/bootstrap/dist/fonts/*`
+        `${NM}/bootstrap/dist/fonts/*`
       ],
       css: [
-        `${LIB_SRC}/bootstrap/dist/css/bootstrap.css`
+        `${NM}/bootstrap/dist/css/bootstrap.css`
       ]
     },
     custom: {
-      index: `${CLIENT_SRC_BASE}/index.html`,
+      index: INDEX_HTML,
       tpl: [
         `${CLIENT_SRC_BASE}/**/*.html`,
-        `!${CLIENT_SRC_BASE}/index.html`
+        `!${INDEX_HTML}`
       ],
       css: `${CLIENT_SRC_BASE}/**/*.css`,
-      tsApp: TS_LIBS.concat([
+      tsApp: [
+        'typings/main/ambient/es6-shim/es6-shim.d.ts',
+        'tools/typings/module.d.ts',
         `${CLIENT_SRC_BASE}/**/*.ts`,
         `!${CLIENT_SRC_BASE}/**/*_spec.ts`
-      ]),
+      ],
       tsLint: [
         `gulpfile.ts`,
         `tools/**/*.ts`,
@@ -101,6 +97,7 @@ export const TSC_APP_OPTS = Object.assign({}, TSC_OPTS, {
 });
 
 export const TSC_TEST_OPTS = Object.assign({}, TSC_OPTS, {
+  outFile: undefined,
   outDir: PATHS.dest.test
 });
 
