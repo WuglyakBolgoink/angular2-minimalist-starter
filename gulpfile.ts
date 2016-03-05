@@ -17,7 +17,6 @@ import * as cssnano from 'gulp-cssnano';
 import * as gulpIf from 'gulp-if';
 import * as childProcess from 'child_process';
 import * as through2 from 'through2';
-// import * as inlineNg2Template from 'gulp-inline-ng2-template';
 import * as loadCoverage from 'remap-istanbul/lib/loadCoverage';
 import * as remap from 'remap-istanbul/lib/remap';
 import * as writeReport from 'remap-istanbul/lib/writeReport';
@@ -143,19 +142,25 @@ gulp.task('font', () =>
 
 gulp.task('jsCopyOnly', () =>
   gulp.src(PATHS.src.vendor.jsCopyOnly)
-    .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
-);
-
-gulp.task('jsLib', () =>
-  gulp.src(PATHS.src.vendor.js)
     .pipe(gulpIf(IS_PROD, sourcemaps.init()))
     .pipe(gulpIf(IS_PROD, uglify()))
     .pipe(gulpIf(IS_PROD, sourcemaps.write()))
     .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
+gulp.task('jsLib', () =>
+  gulp.src(PATHS.src.vendor.js)
+    .pipe(gulpIf(IS_PROD, sourcemaps.init()))
+    .pipe(gulpIf(IS_PROD, uglify({mangle: false})))
+    .pipe(gulpIf(IS_PROD, sourcemaps.write()))
+    .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
+);
+
 gulp.task('css', () =>
   gulp.src(PATHS.src.custom.css)
+    .pipe(gulpIf(IS_PROD, sourcemaps.init()))
+    .pipe(gulpIf(IS_PROD, cssnano()))
+    .pipe(gulpIf(IS_PROD, sourcemaps.write()))
     .pipe(gulp.dest(PATHS.dest.dist.base))
 );
 

@@ -16,9 +16,10 @@
 * Custom Pipes
 
 > Development utilities:
-* TypeScript (almost) everywhere
-* Incremental Compilation for TypeScript files
+* Production ready (commands: npm run start.prod, npm run build.prod)
 * Single generated bundle file (system module) with source-maps
+* Incremental Compilation for TypeScript files
+* TypeScript (almost) everywhere
 * Backend integration (rest API)
 * Live-reload when the source-code changes
 * Static analysis linter for TypeScript

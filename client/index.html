@@ -26,6 +26,7 @@
   <!-- endinject -->
 
   <script>
+    window.IS_PROD = '<%= IS_PROD %>';
     System.import('app.bundle.js').then(function () {
       return System.import('bootstrap');
     }).catch(console.error.bind(console));

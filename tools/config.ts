@@ -1,11 +1,10 @@
-import * as argv from 'yargs';
+import * as yargs from 'yargs';
 import * as slash from 'slash';
 import * as fse from 'fs-extra';
 
+const argv = yargs.argv;
 const CWD = slash(process.cwd());
 
-// --------------
-// Configuration.
 process.env.APP_ENVIRONMENT = argv['env'] || process.env.APP_ENVIRONMENT || 'dev';
 
 export const IS_PROD = process.env.APP_ENVIRONMENT === 'prod';
@@ -13,7 +12,6 @@ export const IS_PROD = process.env.APP_ENVIRONMENT === 'prod';
 export const PORT = 5555;
 export const LIVE_RELOAD_PORT = 4002;
 export const APP_BASE = '/';
-
 
 const TMP_BASE = 'tmp';
 const CLIENT_SRC_BASE = 'client';
