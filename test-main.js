@@ -1,7 +1,18 @@
-// Turn on full stack traces in errors to help debugging
-Error.stackTraceLimit=Infinity;
+if (!Object.hasOwnProperty('name')) {
+  Object.defineProperty(Function.prototype, 'name', {
+    get: function() {
+      var matches = this.toString().match(/^\s*function\s*(\S*)\s*\(/);
+      var name = matches && matches.length > 1 ? matches[1] : "";
+      Object.defineProperty(this, 'name', {value: name});
+      return name;
+    }
+  });
+}
 
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 100;
+// Turn on full stack traces in errors to help debugging
+Error.stackTraceLimit = Infinity;
+
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
 
 // Cancel Karma's synchronous start,
 // we will call `__karma__.start()` later, once all the specs are loaded.
@@ -13,10 +24,25 @@ System.config({
   paths: {
     'angular2/*': 'node_modules/angular2/*.js',
     'rxjs/*': 'node_modules/rxjs/*.js'
+  },
+  packages: {
+    'tmp/test': {
+      format: 'register'
+    }
   }
 });
 
-System.import('angular2/src/platform/browser/browser_adapter').then(function(browser_adapter) {
+Promise.all([
+  System.import('angular2/src/platform/browser/browser_adapter'),
+  System.import('angular2/platform/testing/browser'),
+  System.import('angular2/testing')
+]).then(function (modules) {
+  var browser_adapter = modules[0];
+  var providers = modules[1];
+  var testing = modules[2];
+  testing.setBaseTestProviders(providers.TEST_BROWSER_PLATFORM_PROVIDERS,
+    providers.TEST_BROWSER_APPLICATION_PROVIDERS);
+
   browser_adapter.BrowserDomAdapter.makeCurrent();
 }).then(function() {
     return Promise.all(
@@ -40,7 +66,17 @@ System.import('angular2/src/platform/browser/browser_adapter').then(function(bro
     __karma__.start();
   });
 
-
 function onlySpecFiles(path) {
-  return /_spec\.js$/.test(path);
+  // check for individual files, if not given, always matches to all
+  var patternMatched = __karma__.config.files ?
+    path.match(new RegExp(__karma__.config.files)) : true;
+
+  return patternMatched && /[\.|_]spec\.js$/.test(path);
+}
+
+// Normalize paths to module names.
+function file2moduleName(filePath) {
+  return filePath.replace(/\\/g, '/')
+    .replace(/^\/base\//, '')
+    .replace(/\.js/, '');
 }

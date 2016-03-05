@@ -18,6 +18,10 @@ const CLIENT_SRC_BASE = 'client';
 const CLIENT_DEST_BASE = 'dist';
 const NM = 'node_modules';
 const INDEX_HTML = `${CLIENT_SRC_BASE}/index.html`;
+const TS_LIB_DEF = [
+  'typings/main/ambient/es6-shim/*.d.ts',
+  'tools/typings/module.d.ts'
+];
 
 export const PATHS = {
   cwd: CWD,
@@ -26,6 +30,7 @@ export const PATHS = {
       js: [
         `${NM}/es6-shim/es6-shim.js`,
         `${NM}/systemjs/dist/system-register-only.src.js`,
+        `${NM}/reflect-metadata/Reflect.js`,
         `${NM}/rxjs/bundles/Rx.js`,
         `${NM}/angular2/bundles/angular2-polyfills.js`,
         `${NM}/angular2/bundles/angular2.js`,
@@ -49,12 +54,10 @@ export const PATHS = {
         `!${INDEX_HTML}`
       ],
       css: `${CLIENT_SRC_BASE}/**/*.css`,
-      tsApp: [
-        'typings/main/ambient/es6-shim/es6-shim.d.ts',
-        'tools/typings/module.d.ts',
+      tsApp: TS_LIB_DEF.concat([
         `${CLIENT_SRC_BASE}/**/*.ts`,
         `!${CLIENT_SRC_BASE}/**/*_spec.ts`
-      ],
+      ]),
       tsLint: [
         `gulpfile.ts`,
         `tools/**/*.ts`,
@@ -62,7 +65,10 @@ export const PATHS = {
         `server/**/*.ts`,
         '!tools/typings/**'
       ],
-      test: `${CLIENT_SRC_BASE}/**/*_spec.ts`
+      test: TS_LIB_DEF.concat([
+        'typings/main/ambient/jasmine/*.d.ts',
+        `${CLIENT_SRC_BASE}/**/*_spec.ts`
+      ])
     }
   },
   dest: {

@@ -7,7 +7,7 @@ module.exports = function (config) {
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['jasmine'],
-    
+
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
@@ -23,26 +23,27 @@ module.exports = function (config) {
 
       'node_modules/angular2/bundles/angular2-polyfills.js',
       'node_modules/angular2/es6/dev/src/testing/shims_for_IE.js',
+      'node_modules/reflect-metadata/Reflect.js',
 
       'node_modules/systemjs/dist/system.src.js',
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false, served: true },
-      'node_modules/reflect-metadata/Reflect.js',   
-    // beta.7 IE 11 polyfills from https://github.com/angular/angular/issues/7144
-      
-      'tools/build/file2modulename.js',
-      { pattern: 'node_modules/angular2/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/angular2/**/*.js', included: false, watched: false, served: true },
 
-      { pattern: 'test/**', included: false, watched: true },
+      { pattern: 'client/**/*.html', included: false, watched: true, served: true },
+      { pattern: 'tmp/test/**', included: false, watched: true, served: true },
 
       'test-main.js'
     ],
+
+    proxies: {
+      '/base/tmp/test/': '/base/client/'
+    },
 
     // list of files / patterns to exclude
     exclude: [
       'node_modules/angular2/bundles/**',
       'node_modules/angular2/es6/**',
       'node_modules/angular2/examples/**',
-      'node_modules/angular2/src/**',
       'node_modules/angular2/ts/**',
       'node_modules/angular2/typings/**',
       'node_modules/angular2/**/*_spec.js',
@@ -57,31 +58,31 @@ module.exports = function (config) {
     reporters: ['mocha', 'coverage'],
 
     coverageReporter: {
-      dir: 'tmp/coverage',
+      dir: 'tmp',
       reporters: [
         { type: 'text-summary' },
-        { type: 'html' }
+        { type: 'json', subdir: 'coverage' }
       ]
     },
 
     // web server port
     port: 9876,
-    
+
     // enable / disable colors in the output (reporters and logs)
     colors: true,
-    
+
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
-    
+
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: true,
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [
-      'Chrome',
-      'PhantomJS2'
+      //'Chrome',
+      'PhantomJS'
     ],
 
     customLaunchers: {
