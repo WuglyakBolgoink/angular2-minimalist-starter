@@ -247,7 +247,7 @@ gulp.task('server.w', (done) =>
     ext: 'ts',
     env: { 'APP_ENVIRONMENT': process.env.APP_ENVIRONMENT },
     execMap: {
-      ts: 'ts-node'
+      ts: 'node_modules/ts-node/dist/bin/ts-node.js'
     }
   }).on('start', () => {
     console.log('Server started');
