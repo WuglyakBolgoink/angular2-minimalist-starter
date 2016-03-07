@@ -9,7 +9,6 @@
     "gulp-if": "github:DefinitelyTyped/DefinitelyTyped/gulp-if/gulp-if.d.ts#f62efc0d21f9029e84bf1cd9c07ec9c17a3c5690",
     "gulp-shell": "github:DefinitelyTyped/DefinitelyTyped/gulp-shell/gulp-shell.d.ts#a6ff9f6e195a334afd89e4b721d05e9520eee4c0",
     "gulp-sourcemaps": "github:DefinitelyTyped/DefinitelyTyped/gulp-sourcemaps/gulp-sourcemaps.d.ts#a6ff9f6e195a334afd89e4b721d05e9520eee4c0",
-    "gulp-tslint": "github:DefinitelyTyped/DefinitelyTyped/gulp-tslint/gulp-tslint.d.ts#ba3d78e4b5965cedf44a52e9c36fb72932352c16",
     "gulp-uglify": "github:DefinitelyTyped/DefinitelyTyped/gulp-uglify/gulp-uglify.d.ts#ba956a3e6e8ebb82d33548209f793234efac44a2",
     "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#a6ff9f6e195a334afd89e4b721d05e9520eee4c0",
     "karma": "github:DefinitelyTyped/DefinitelyTyped/karma/karma.d.ts#02dd2f323e1bcb8a823269f89e0909ec9e5e38b5",
