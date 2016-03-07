@@ -10,7 +10,7 @@
     "url": "https://github.com/rogerpadilla/angular2-minimalist-starter/issues"
   },
   "scripts": {
-    "postinstall": "typings install",
+    "postinstall": "node node_modules/typings/dist/bin/typings.js install",
     "start": "gulp serve",
     "start.prod": "gulp serve --env=prod",
     "build": "gulp build",
