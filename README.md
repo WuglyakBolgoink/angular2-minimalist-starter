@@ -34,6 +34,7 @@ Maintain an up-to-date and minimalist project using the very latest version of A
 
 ## Quick start
 ```bash
+npm install -g ts-node
 git clone https://github.com/rogerpadilla/angular2-minimalist-starter.git
 cd angular2-minimalist-starter
 npm install
