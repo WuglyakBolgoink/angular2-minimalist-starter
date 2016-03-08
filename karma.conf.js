@@ -41,8 +41,6 @@ module.exports = function (config) {
 
     // list of files / patterns to exclude
     exclude: [
-      'node_modules/angular2/bundles/**',
-      'node_modules/angular2/es6/**',
       'node_modules/angular2/examples/**',
       'node_modules/angular2/ts/**',
       'node_modules/angular2/typings/**',
