@@ -39,7 +39,7 @@ function compileTs(src: string | string[], tscOpts: Object, cb?: Function) {
     if (_meta[procKey]) {
       _meta[procKey].kill();
     }
-    _meta[procKey] = spawn(`node`, [`./node_modules/typescript/lib/tsc.js`, ...tscArgs, ...files]);
+    _meta[procKey] = spawn(`node`, [`node_modules/typescript/lib/tsc.js`, ...tscArgs, ...files]);
     _meta[procKey].stdout.on('data', (data) => console.log(data.toString()));
     _meta[procKey].stderr.on('data', (data) => console.error(data.toString()));
     _meta[procKey].on('exit', (code) => {
@@ -127,48 +127,42 @@ function remapCoverage() {
   return writeReport(collector, 'html', `${PATHS.dest.coverage}/remap/coverage-html`);
 }
 
-gulp.task('cssLib', () =>
-  gulp.src(PATHS.src.vendor.css)
-    .pipe(gulpIf(IS_PROD, sourcemaps.init()))
-    .pipe(gulpIf(IS_PROD, cssnano()))
-    .pipe(gulpIf(IS_PROD, sourcemaps.write()))
-    .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
+gulp.task('cssLib', () => gulp.src(PATHS.src.vendor.css)
+  .pipe(gulpIf(IS_PROD, sourcemaps.init()))
+  .pipe(gulpIf(IS_PROD, cssnano()))
+  .pipe(gulpIf(IS_PROD, sourcemaps.write()))
+  .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
-gulp.task('font', () =>
-  gulp.src(PATHS.src.vendor.font)
-    .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
+gulp.task('font', () => gulp.src(PATHS.src.vendor.font)
+  .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
-gulp.task('jsCopyOnly', () =>
-  gulp.src(PATHS.src.vendor.jsCopyOnly)
-    .pipe(gulpIf(IS_PROD, sourcemaps.init()))
-    .pipe(gulpIf(IS_PROD, uglify()))
-    .pipe(gulpIf(IS_PROD, sourcemaps.write()))
-    .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
+gulp.task('jsCopyOnly', () => gulp.src(PATHS.src.vendor.jsCopyOnly)
+  .pipe(gulpIf(IS_PROD, sourcemaps.init()))
+  .pipe(gulpIf(IS_PROD, uglify()))
+  .pipe(gulpIf(IS_PROD, sourcemaps.write()))
+  .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
-gulp.task('jsLib', () =>
-  gulp.src(PATHS.src.vendor.js)
-    .pipe(gulpIf(IS_PROD, sourcemaps.init()))
-    .pipe(gulpIf(IS_PROD, uglify({mangle: false})))
-    .pipe(gulpIf(IS_PROD, sourcemaps.write()))
-    .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
+gulp.task('jsLib', () => gulp.src(PATHS.src.vendor.js)
+  .pipe(gulpIf(IS_PROD, sourcemaps.init()))
+  .pipe(gulpIf(IS_PROD, uglify({ mangle: false })))
+  .pipe(gulpIf(IS_PROD, sourcemaps.write()))
+  .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
-gulp.task('css', () =>
-  gulp.src(PATHS.src.custom.css)
-    .pipe(gulpIf(IS_PROD, sourcemaps.init()))
-    .pipe(gulpIf(IS_PROD, cssnano()))
-    .pipe(gulpIf(IS_PROD, sourcemaps.write()))
-    .pipe(gulp.dest(PATHS.dest.dist.base))
+gulp.task('css', () => gulp.src(PATHS.src.custom.css)
+  .pipe(gulpIf(IS_PROD, sourcemaps.init()))
+  .pipe(gulpIf(IS_PROD, cssnano()))
+  .pipe(gulpIf(IS_PROD, sourcemaps.write()))
+  .pipe(gulp.dest(PATHS.dest.dist.base))
 );
 
 gulp.task('css.w', ['css'], () => gulp.watch(PATHS.src.custom.css, ['css']));
 
-gulp.task('tpl', () =>
-  gulp.src(PATHS.src.custom.tpl)
-    .pipe(gulp.dest(PATHS.dest.dist.base))
+gulp.task('tpl', () => gulp.src(PATHS.src.custom.tpl)
+  .pipe(gulp.dest(PATHS.dest.dist.base))
 );
 
 gulp.task('tpl.w', ['tpl'], () => gulp.watch(PATHS.src.custom.tpl, ['tpl']));
@@ -211,34 +205,14 @@ gulp.task('karma', ['clean.coverage'], (cb) => startKarma(true, cb));
 gulp.task('test', seq('test.build', 'karma'));
 
 gulp.task('build', ['clean.dist'], seq(
-  [
-    'jsCopyOnly',
-    'cssLib',
-    'font',
-    'jsLib',
-    'css',
-    'tpl',
-    'tsLint',
-    'ts',
-    'index'
-  ])
+  ['jsCopyOnly', 'cssLib', 'font', 'jsLib', 'css', 'tpl', 'tsLint', 'ts', 'index'])
 );
 
 gulp.task('reload.w', () => gulp.watch(`${PATHS.dest.dist.base}/**/*`, (evt: any) => notifyLiveReload(evt.path)));
 
 gulp.task('build.w', ['clean.dist'], seq(
-  [
-    'jsCopyOnly',
-    'cssLib',
-    'font',
-    'jsLib',
-    'css.w',
-    'tpl.w',
-    'ts.w',
-    'index.w'
-  ],
-  'reload.w'
-));
+  ['jsCopyOnly', 'cssLib', 'font', 'jsLib', 'css.w', 'tpl.w', 'ts.w', 'index.w'], 'reload.w')
+);
 
 gulp.task('server.w', (done) =>
   nodemon({
