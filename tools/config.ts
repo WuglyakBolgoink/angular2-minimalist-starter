@@ -11,13 +11,13 @@ export const IS_PROD = process.env.APP_ENVIRONMENT === 'prod';
 
 export const PORT = 5555;
 export const LIVE_RELOAD_PORT = 4002;
-export const APP_BASE = '/';
+export const APP_ROOT = '/';
 
-const TMP_BASE = 'tmp';
-const CLIENT_SRC_BASE = 'client';
-const CLIENT_DEST_BASE = 'dist';
+const TMP = 'tmp';
+const CLIENT_SRC = 'client';
+const CLIENT_DEST = 'dist';
 const NM = 'node_modules';
-const INDEX_HTML = `${CLIENT_SRC_BASE}/index.html`;
+const INDEX_HTML = `${CLIENT_SRC}/index.html`;
 const TS_LIB_DEF = [
   'typings/main/ambient/es6-shim/*.d.ts',
   'tools/typings/module.d.ts'
@@ -37,8 +37,10 @@ export const PATHS = {
         `${NM}/angular2/bundles/router.js`,
         `${NM}/angular2/bundles/http.js`,
       ],
-      jsCopyOnly: [
+      copyOnly: [
         `${NM}/systemjs/dist/system-polyfills.src.js`,
+        `${NM}/reflect-metadata/Reflect.js.map`,        
+        `${NM}/bootstrap/dist/css/bootstrap.css.map`        
       ],
       font: [
         `${NM}/bootstrap/dist/fonts/*`
@@ -50,36 +52,36 @@ export const PATHS = {
     custom: {
       index: INDEX_HTML,
       tpl: [
-        `${CLIENT_SRC_BASE}/**/*.html`,
+        `${CLIENT_SRC}/**/*.html`,
         `!${INDEX_HTML}`
       ],
-      css: `${CLIENT_SRC_BASE}/**/*.css`,
+      css: `${CLIENT_SRC}/**/*.css`,
       tsApp: TS_LIB_DEF.concat([
-        `${CLIENT_SRC_BASE}/**/*.ts`,
-        `!${CLIENT_SRC_BASE}/**/*_spec.ts`
+        `${CLIENT_SRC}/**/*.ts`,
+        `!${CLIENT_SRC}/**/*_spec.ts`
       ]),
       tsLint: [
         `gulpfile.ts`,
         `tools/**/*.ts`,
-        `${CLIENT_SRC_BASE}/**/*.ts`,
+        `${CLIENT_SRC}/**/*.ts`,
         `server/**/*.ts`,
         '!tools/typings/**'
       ],
       test: TS_LIB_DEF.concat([
         'typings/main/ambient/jasmine/*.d.ts',
-        `${CLIENT_SRC_BASE}/**/*_spec.ts`
+        `${CLIENT_SRC}/**/*_spec.ts`
       ])
     }
   },
   dest: {
-    tmp: TMP_BASE,
-    test: `${TMP_BASE}/test`,
-    coverage: `${TMP_BASE}/coverage`,
+    tmp: TMP,
+    test: `${TMP}/test`,
+    coverage: `${TMP}/coverage`,
     dist: {
-      base: CLIENT_DEST_BASE,
-      appBundle: `${CLIENT_DEST_BASE}/app.bundle.js`,
-      lib: `${CLIENT_DEST_BASE}/lib`,
-      font: `${CLIENT_DEST_BASE}/fonts`
+      base: CLIENT_DEST,
+      appBundle: `${CLIENT_DEST}/app.bundle.js`,
+      lib: `${CLIENT_DEST}/lib`,
+      font: `${CLIENT_DEST}/fonts`
     }
   }
 };
@@ -94,14 +96,10 @@ TSC_OPTS.pretty = true;
 TSC_OPTS.module = 'system';
 
 export const TSC_APP_OPTS = Object.assign({}, TSC_OPTS, {
-  outFile: PATHS.dest.dist.appBundle,
-  sourceMap: false,
-  inlineSourceMap: true,
-  inlineSources: true
+  outFile: PATHS.dest.dist.appBundle
 });
 
 export const TSC_TEST_OPTS = Object.assign({}, TSC_OPTS, {
-  outFile: undefined,
   outDir: PATHS.dest.test
 });
 

@@ -3,14 +3,14 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import {resolve} from 'path';
 
-import {LIVE_RELOAD_PORT, PATHS, PORT, APP_BASE} from '../tools/config';
+import {LIVE_RELOAD_PORT, PATHS, PORT, APP_ROOT} from '../tools/config';
 import * as contactRouter from './contact/contact.router';
 
 const INDEX_DEST_PATH = resolve(PATHS.cwd, PATHS.dest.dist.base, 'index.html');
 
 const server = express();
 
-server.use(APP_BASE, <any> connectLivereload({ port: LIVE_RELOAD_PORT }));
+server.use(APP_ROOT, <any> connectLivereload({ port: LIVE_RELOAD_PORT }));
 server.use(express.static(PATHS.dest.dist.base));
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -23,7 +23,7 @@ server.get('/api/**', (req, res, next) => {
 
 server.use('/api/contact', contactRouter);
 
-server.get(`${APP_BASE}*`, (req, res) => {
+server.get(`${APP_ROOT}*`, (req, res) => {
   res.sendFile(INDEX_DEST_PATH);
 });
 

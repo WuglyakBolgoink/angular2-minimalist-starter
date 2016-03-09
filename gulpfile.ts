@@ -21,7 +21,7 @@ import * as loadCoverage from 'remap-istanbul/lib/loadCoverage';
 import * as remap from 'remap-istanbul/lib/remap';
 import * as writeReport from 'remap-istanbul/lib/writeReport';
 
-import {PATHS, TSC_APP_OPTS, TSC_TEST_OPTS, PORT, LIVE_RELOAD_PORT, APP_BASE, IS_PROD} from './tools/config';
+import {PATHS, TSC_APP_OPTS, TSC_TEST_OPTS, PORT, LIVE_RELOAD_PORT, APP_ROOT, IS_PROD} from './tools/config';
 
 const spawn = childProcess.spawn;
 
@@ -138,10 +138,7 @@ gulp.task('font', () => gulp.src(PATHS.src.vendor.font)
   .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
-gulp.task('jsCopyOnly', () => gulp.src(PATHS.src.vendor.jsCopyOnly)
-  .pipe(gulpIf(IS_PROD, sourcemaps.init()))
-  .pipe(gulpIf(IS_PROD, uglify()))
-  .pipe(gulpIf(IS_PROD, sourcemaps.write()))
+gulp.task('copyOnlyLib', () => gulp.src(PATHS.src.vendor.copyOnly)
   .pipe(gulp.dest((file: any) => mapDestPathForlib(file.path)))
 );
 
@@ -177,7 +174,7 @@ gulp.task('index', () => {
   const libStream = gulp.src(libs, { read: false });
 
   return gulp.src(PATHS.src.custom.index)
-    .pipe(template({ APP_BASE, IS_PROD }))
+    .pipe(template({ APP_ROOT, IS_PROD }))
     .pipe(inject(libStream, {
       name: 'lib',
       transform: function(filepath) {
@@ -205,13 +202,13 @@ gulp.task('karma', ['clean.coverage'], (cb) => startKarma(true, cb));
 gulp.task('test', seq('test.build', 'karma'));
 
 gulp.task('build', ['clean.dist'], seq(
-  ['jsCopyOnly', 'cssLib', 'font', 'jsLib', 'css', 'tpl', 'tsLint', 'ts', 'index'])
+  ['copyOnlyLib', 'cssLib', 'font', 'jsLib', 'css', 'tpl', 'tsLint', 'ts', 'index'])
 );
 
 gulp.task('reload.w', () => gulp.watch(`${PATHS.dest.dist.base}/**/*`, (evt: any) => notifyLiveReload(evt.path)));
 
 gulp.task('build.w', ['clean.dist'], seq(
-  ['jsCopyOnly', 'cssLib', 'font', 'jsLib', 'css.w', 'tpl.w', 'ts.w', 'index.w'], 'reload.w')
+  ['copyOnlyLib', 'cssLib', 'font', 'jsLib', 'css.w', 'tpl.w', 'ts.w', 'index.w'], 'reload.w')
 );
 
 gulp.task('server.w', (done) =>
