@@ -33,14 +33,14 @@ export const PATHS = {
         `${NM}/reflect-metadata/Reflect.js`,
         `${NM}/rxjs/bundles/Rx.js`,
         `${NM}/angular2/bundles/angular2-polyfills.js`,
-        `${NM}/angular2/bundles/angular2.js`,
-        `${NM}/angular2/bundles/router.js`,
-        `${NM}/angular2/bundles/http.js`,
+        `${NM}/angular2/bundles/angular2.dev.js`,
+        `${NM}/angular2/bundles/router.dev.js`,
+        `${NM}/angular2/bundles/http.dev.js`,
       ],
       copyOnly: [
         `${NM}/systemjs/dist/system-polyfills.src.js`,
-        `${NM}/reflect-metadata/Reflect.js.map`,        
-        `${NM}/bootstrap/dist/css/bootstrap.css.map`        
+        `${NM}/reflect-metadata/Reflect.js.map`,
+        `${NM}/bootstrap/dist/css/bootstrap.css.map`
       ],
       font: [
         `${NM}/bootstrap/dist/fonts/*`

@@ -99,8 +99,8 @@ function lintTs(src: string | string[]) {
 }
 
 function mapDestPathForlib(filePath: string) {
-  const relPath = slash(path.relative(__dirname, filePath));
-  return path.dirname(relPath).replace(FIRST_PATH_SEGMENT, PATHS.dest.dist.lib);
+  const relPath = path.dirname(path.relative(__dirname, filePath));
+  return slash(relPath).replace(FIRST_PATH_SEGMENT, PATHS.dest.dist.lib);
 }
 
 function startKarma(singleRun: boolean, cb: Function) {
