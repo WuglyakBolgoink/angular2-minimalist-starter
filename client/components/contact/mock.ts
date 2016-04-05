@@ -1,5 +1,5 @@
-import {ObjectUtil} from '../../core/object.util';
-import {Contact} from '../../core/dto';
+import {ObjectUtil} from '../../utils/object.util';
+import {Contact} from '../../models/dto';
 
 export const contacts: Contact[] = [
   buildContact({ name: 'Michael Jackson', email: 'michael_jackson@example.com' }),

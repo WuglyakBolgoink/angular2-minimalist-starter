@@ -4,7 +4,7 @@ import {Http, RequestOptionsArgs, Response} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import {ReplaySubject} from 'rxjs/subject/ReplaySubject';
 
-import {Notification} from './dto';
+import {Notification} from '../models/dto';
 
 
 @Injectable()

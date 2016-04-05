@@ -12,7 +12,7 @@ module.exports = function (config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       '**/*.js': ['sourcemap'],
-      'tmp/test/**/!(*_spec|*_mock).js': ['coverage'],
+      'tmp/test/**/!(spec|mock).js': ['coverage'],
     },
 
     // list of files / patterns to load in the browser

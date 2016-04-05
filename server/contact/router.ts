@@ -1,8 +1,8 @@
 import * as express from 'express';
 
-import {sendError} from '../core/web.util';
-import {contactService} from './contact.service';
-import {Contact} from '../../client/core/dto';
+import {sendError} from '../utils/web.util';
+import {contactService} from '../services/contact.service';
+import {Contact} from '../../client/models/dto';
 
 const router = express.Router();
 

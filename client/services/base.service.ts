@@ -1,9 +1,9 @@
 import {Response} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 
-import {OPTS_REQ_JSON} from './web.util';
-import {BaseDto} from './dto';
-import {HttpUtil} from './http.util';
+import {BaseDto} from '../models/dto';
+import {OPTS_REQ_JSON} from '../utils/web.util';
+import {HttpUtil} from '../utils/http.util';
 
 
 export abstract class BaseResourceService<T extends BaseDto> {

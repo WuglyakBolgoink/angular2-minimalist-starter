@@ -1,8 +1,8 @@
 import {Injectable} from 'angular2/core';
 
-import {Contact} from '../../core/dto';
-import {HttpUtil} from '../../core/http.util';
-import {BaseResourceService} from '../../core/base.service';
+import {Contact} from '../models/dto';
+import {HttpUtil} from '../utils/http.util';
+import {BaseResourceService} from './base.service';
 
 
 @Injectable()

@@ -12,11 +12,11 @@ import {provide} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 
-import {ObjectUtil} from '../../core/object.util';
+import {ObjectUtil} from '../../utils/object.util';
 
-import {ContactComponent} from './contact.component';
-import {ContactService} from './contact.service';
-import {contacts} from './contact.mock';
+import {ContactComponent} from './component';
+import {ContactService} from '../../services/contact.service';
+import {contacts} from './mock';
 
 export function main() {
 

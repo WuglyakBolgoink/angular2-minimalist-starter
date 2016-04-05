@@ -213,7 +213,7 @@ gulp.task('build.w', ['clean.dist'], seq(
 
 gulp.task('server.w', (done) =>
   nodemon({
-    script: 'server/bootstrap.ts',
+    script: 'server/boot.ts',
     watch: 'server',
     ext: 'ts',
     env: { 'APP_ENVIRONMENT': process.env.APP_ENVIRONMENT },

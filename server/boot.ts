@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 import {resolve} from 'path';
 
 import {LIVE_RELOAD_PORT, PATHS, PORT, APP_ROOT} from '../tools/config';
-import * as contactRouter from './contact/contact.router';
+import * as contactRouter from './contact/router';
 
 const INDEX_DEST_PATH = resolve(PATHS.cwd, PATHS.dest.dist.base, 'index.html');
 

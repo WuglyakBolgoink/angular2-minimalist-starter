@@ -71,7 +71,7 @@ function onlySpecFiles(path) {
   var patternMatched = __karma__.config.files ?
     path.match(new RegExp(__karma__.config.files)) : true;
 
-  return patternMatched && /[\.|_]spec\.js$/.test(path);
+  return patternMatched && /spec\.js$/.test(path);
 }
 
 // Normalize paths to module names.

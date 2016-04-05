@@ -3,9 +3,9 @@ import {bootstrap} from 'angular2/platform/browser';
 import {ROUTER_PROVIDERS} from 'angular2/router';
 import {HTTP_PROVIDERS} from 'angular2/http';
 
-import {HttpUtil} from './core/http.util';
-import {AppComponent} from './components/app/app.component';
-import {ContactService} from './components/contact/contact.service';
+import {HttpUtil} from './utils/http.util';
+import {AppComponent} from './components/app/component';
+import {ContactService} from './services/contact.service';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';

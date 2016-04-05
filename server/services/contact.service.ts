@@ -1,6 +1,6 @@
-import {Contact} from '../../client/core/dto';
-import {ObjectUtil} from '../../client/core/object.util';
-import {contacts, buildContact} from '../../client/components/contact/contact.mock';
+import {Contact} from '../../client/models/dto';
+import {ObjectUtil} from '../../client/utils/object.util';
+import {contacts, buildContact} from '../../client/components/contact/mock';
 
 export class ContactService {
 

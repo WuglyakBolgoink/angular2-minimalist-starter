@@ -20,7 +20,7 @@ const NM = 'node_modules';
 const INDEX_HTML = `${CLIENT_SRC}/index.html`;
 const TS_LIB_DEF = [
   'typings/main/ambient/es6-shim/*.d.ts',
-  'tools/typings/module.d.ts'
+  'tools/manual_typings/module.d.ts'
 ];
 
 export const PATHS = {
@@ -58,18 +58,18 @@ export const PATHS = {
       css: `${CLIENT_SRC}/**/*.css`,
       tsApp: TS_LIB_DEF.concat([
         `${CLIENT_SRC}/**/*.ts`,
-        `!${CLIENT_SRC}/**/*_spec.ts`
+        `!${CLIENT_SRC}/**/spec.ts`
       ]),
       tsLint: [
         `gulpfile.ts`,
         `tools/**/*.ts`,
         `${CLIENT_SRC}/**/*.ts`,
         `server/**/*.ts`,
-        '!tools/typings/**'
+        '!tools/manual_typings/**'
       ],
       test: TS_LIB_DEF.concat([
         'typings/main/ambient/jasmine/*.d.ts',
-        `${CLIENT_SRC}/**/*_spec.ts`
+        `${CLIENT_SRC}/**/spec.ts`
       ])
     }
   },

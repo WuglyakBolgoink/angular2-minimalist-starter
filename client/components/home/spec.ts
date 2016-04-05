@@ -7,7 +7,7 @@ it,
 AsyncTestCompleter
 } from 'angular2/testing_internal';
 
-import {HomeComponent} from './home.component';
+import {HomeComponent} from './component';
 
 export function main() {
 
