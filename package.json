@@ -17,7 +17,9 @@
     "build.prod": "gulp build --env=prod",
     "test": "gulp test"
   },
-  "author": "Roger Padilla <rogerpadilla>",
+  "contributors": [
+    "Roger Padilla <rogerpadilla>"
+  ],
   "license": "MIT",
   "devDependencies": {
     "connect-livereload": "^0.5.4",
