@@ -15,3 +15,9 @@ declare module 'remap-istanbul/lib/writeReport' {
   module istanbulWriteReport { }
   export = istanbulWriteReport;
 }
+
+declare module 'remap-istanbul/lib/gulpRemapIstanbul' {
+  const gulpRemapIstanbul: any;
+  module gulpRemapIstanbul { }
+  export = gulpRemapIstanbul;
+}
