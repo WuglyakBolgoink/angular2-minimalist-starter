@@ -16,28 +16,23 @@
 * Custom Pipes
 
 > Development utilities:
-* Production ready (commands: npm run start.prod, npm run build.prod)
-* Single generated bundle file (system module) with source-maps
+* Production ready
 * Incremental Compilation for TypeScript files
 * TypeScript (almost) everywhere
-* Backend integration (rest API)
 * Live-reload when the source-code changes
 * Static analysis linter for TypeScript
 * Karma setup
 * Example tests
-* Example Express setup (for backend; frontend is decoupled)
 
 ## Goal
-Maintain an up-to-date and minimalist project using the very latest version of Angular2, while exposing most of the Angular2's features. Thus anyone can use it as an extremely minimal base to get up and running with Angular2 and TypeScript (using Gulp for assisting with boilerplate).
-
-**Note:** tested on latest 5.x versions of Node.js
+Maintain an up-to-date and minimalist project using the very latest version of Angular2, while exposing most of the Angular2's features. Thus anyone can use it as an extremely minimal base to get up and running with Angular2 and TypeScript (using Webpack for assisting with boilerplate).
 
 ## Quick start
 ```bash
 git clone https://github.com/rogerpadilla/angular2-minimalist-starter.git
 cd angular2-minimalist-starter
 npm install
-npm start # this command should automatically open a browser window
+npm start # then go to http://localhost:8080
 ```
 
 ##### Use a TypeScript-aware editor to view/edit the code

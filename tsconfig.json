@@ -3,21 +3,11 @@
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
-    "noImplicitAny": false,
-    "suppressImplicitAnyIndexErrors": true,
-    "removeComments": true,
+    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "inlineSources": true
-  },
-  "compileOnSave": false,
-  "exclude": [
-    "dist",
-    "node_modules",
-    "tmp",
-    "typings/browser.d.ts",
-    "typings/browser",
-    "typings/main.d.ts"
-  ]
+    "removeComments": false,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true
+  }
 }
