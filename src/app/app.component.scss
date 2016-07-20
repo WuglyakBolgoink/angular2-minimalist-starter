@@ -14,4 +14,9 @@ my-app {
   > li {
     display: inline-block;
   }
+  a {
+    &.active {
+      color: #0000ff;
+    }
+  }
 }
