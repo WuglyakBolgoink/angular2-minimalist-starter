@@ -1,16 +1,16 @@
 import { provideRouter, RouterConfig }  from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { QuestionsComponent } from './question/questions.component';
 import { AboutComponent } from './about/about.component';
 
 const routes: RouterConfig = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'home'
+    redirectTo: 'questions'
   },
   {
-    path: 'home',
-    component: HomeComponent
+    path: 'questions',
+    component: QuestionsComponent
   },
   {
     path: 'about',

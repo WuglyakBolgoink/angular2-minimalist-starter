@@ -11,7 +11,6 @@ describe('App', () => {
     AppComponent
   ]);
   it ('should work', inject([AppComponent], (app: AppComponent) => {
-    // Add real test here
-    expect(2).toBe(2);
+    expect(app.title).toBe('Angular 2 minimalist starter');
   }));
 });

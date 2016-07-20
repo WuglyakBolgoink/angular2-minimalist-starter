@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 const helpers = require('./helpers');
 
 module.exports = {
@@ -19,7 +20,13 @@ module.exports = {
     preLoaders: [
       {
         test: /\.ts$/,
+        exclude: /node_modules/,
         loader: 'tslint'
+      },
+      {
+        test: /\s[a|c]ss$/,
+        exclude: /node_modules/,
+        loader: 'sasslint'
       }
     ],
     loaders: [
@@ -41,9 +48,9 @@ module.exports = {
         loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
       },
       {
-        test: /\.css$/,
+        test: /\.scss$/,
         include: helpers.root('src', 'app'),
-        loader: 'raw'
+        loader: 'raw!sass?sourceMap'
       }
     ]
   },
@@ -63,6 +70,12 @@ module.exports = {
     }])
   ],
 
+  sass: [
+    autoprefixer({
+      browsers: ['last 2 version']
+    })
+  ],
+
   /**
    * Static analysis linter for TypeScript advanced options configuration
    * Description: An extensible linter for the TypeScript language.
@@ -73,5 +86,10 @@ module.exports = {
     emitErrors: false,
     failOnHint: false,
     resourcePath: 'src'
+  },
+
+  sasslint: {
+    configFile: './.sass-lint.yml'
   }
+
 };
