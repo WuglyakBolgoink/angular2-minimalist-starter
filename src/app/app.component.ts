@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { ROUTER_DIRECTIVES } from '@angular/router';
+import { ROUTER_DIRECTIVES, Router, NavigationEnd } from '@angular/router';
+import { AppService } from './app.service';
 
 @Component({
   selector: 'my-app',
@@ -11,6 +12,15 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 })
 export class AppComponent {
 
-  title = 'Angular 2 minimalist starter';
+  constructor(private router: Router, private appService: AppService) {
+  }
+
+  ngOnInit() {
+    this.router.events.subscribe(navEvt => {
+      if (navEvt instanceof NavigationEnd) {
+        this.appService.inferTitleFromUrl(navEvt.urlAfterRedirects);
+      }
+    });
+  }
 
 }

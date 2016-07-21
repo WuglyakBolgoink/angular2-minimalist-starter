@@ -1,6 +1,6 @@
 <ul class="my-menu">
-  <li><a [routerLink]="['/questions']" routerLinkActive="active">{{title}}</a></li>
-  <li><a [routerLink]="['/about']" routerLinkActive="active">About</a></li>
+  <li><a [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Questions</a></li>
+  <li><a [routerLink]="['/about']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">About</a></li>
 </ul>
 
 <router-outlet></router-outlet>

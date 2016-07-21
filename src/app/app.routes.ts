@@ -5,11 +5,6 @@ import { AboutComponent } from './about/about.component';
 const routes: RouterConfig = [
   {
     path: '',
-    pathMatch: 'full',
-    redirectTo: 'questions'
-  },
-  {
-    path: 'questions',
     component: QuestionsComponent
   },
   {
