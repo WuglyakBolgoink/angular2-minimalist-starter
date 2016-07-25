@@ -5,7 +5,8 @@ import { Title } from '@angular/platform-browser';
 @Injectable()
 export class AppService {
 
-  private baseTitle = 'Angular 2 minimalist starter';
+  baseTitle = 'Angular 2 minimalist starter';
+  titleSeparator = ' | ';
 
   constructor(private titleService: Title) {
   }
@@ -22,7 +23,7 @@ export class AppService {
   setTitle(title: string) {
     let newTitle = '';
     if (title) {
-      newTitle += `${title} | `;
+      newTitle += `${title}${this.titleSeparator}`;
     }
     newTitle += this.baseTitle;
     this.titleService.setTitle(newTitle);
