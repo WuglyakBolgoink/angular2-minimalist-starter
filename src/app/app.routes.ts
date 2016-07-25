@@ -1,11 +1,21 @@
 import { provideRouter, RouterConfig }  from '@angular/router';
-import { QuestionsComponent } from './question/questions.component';
+import { QuestionListComponent } from './question/question-list.component';
+import { QuestionFormComponent } from './question/question-form.component';
 import { AboutComponent } from './about/about.component';
 
 const routes: RouterConfig = [
   {
     path: '',
-    component: QuestionsComponent
+    component: QuestionListComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'question/add',
+    component: QuestionFormComponent
+  },
+  {
+    path: 'question/:id/edit',
+    component: QuestionFormComponent
   },
   {
     path: 'about',

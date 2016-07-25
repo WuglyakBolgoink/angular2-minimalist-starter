@@ -1,6 +1,13 @@
-<ul class="my-menu">
-  <li><a [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Questions</a></li>
-  <li><a [routerLink]="['/about']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">About</a></li>
-</ul>
+<nav class="my-menu">
+  <a [routerLink]="['']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    Questions
+  </a>
+  <a [routerLink]="['/question/add']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    Add Question
+  </a>
+  <a [routerLink]="['/about']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    About
+  </a>
+</nav>
 
 <router-outlet></router-outlet>

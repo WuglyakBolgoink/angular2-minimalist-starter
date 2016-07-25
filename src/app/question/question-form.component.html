@@ -1,0 +1,11 @@
+<form (ngSubmit)="onSubmit()" #questionForm="ngForm">
+
+  <div class="form-group">
+    <label for="questionTitle">Title</label>
+    <input [(ngModel)]="model.title" name="title" id="questionTitle"
+      class="form-control" type="text" required autofocus>
+  </div>
+
+  <button [disabled]="!questionForm.form.valid" type="submit" class="btn btn-default">Submit</button>
+
+</form>
