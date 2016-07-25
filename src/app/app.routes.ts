@@ -6,8 +6,12 @@ import { AboutComponent } from './about/about.component';
 const routes: RouterConfig = [
   {
     path: '',
-    component: QuestionListComponent,
+    redirectTo: 'questions',    
     pathMatch: 'full'
+  },
+  {
+    path: 'questions',
+    component: QuestionListComponent
   },
   {
     path: 'question/add',
