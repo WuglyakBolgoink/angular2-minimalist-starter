@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
-import { ROUTER_DIRECTIVES, Router, NavigationEnd } from '@angular/router';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { ROUTER_DIRECTIVES, Router, NavigationEnd, ActivatedRoute, UrlPathWithParams } from '@angular/router';
 import { AppService } from './app.service';
 
 @Component({
@@ -7,12 +7,12 @@ import { AppService } from './app.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   directives: [ROUTER_DIRECTIVES],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  constructor(private router: Router, private appService: AppService) {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute,
+    private appService: AppService) {
   }
 
   ngOnInit() {
