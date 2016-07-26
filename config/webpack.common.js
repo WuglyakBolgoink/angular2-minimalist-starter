@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ForkCheckerPlugin = require('awesome-typescript-loader').ForkCheckerPlugin;
 const autoprefixer = require('autoprefixer');
 const helpers = require('./helpers');
 
@@ -57,6 +58,8 @@ module.exports = {
   },
 
   plugins: [
+    new ForkCheckerPlugin(),
+    
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor', 'polyfills']
     }),
