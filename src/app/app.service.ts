@@ -12,9 +12,10 @@ export class AppService {
   }
 
   inferTitleFromUrl(url: string) {
+    const relativeUrl = url.replace(/^\/|\/$/g, '');
     let newTitle = '';
-    if (url !== '/') {
-      newTitle += url.split('/').map(word => word.length ? word[0].toUpperCase() + word.substring(1)
+    if (relativeUrl) {
+      newTitle += relativeUrl.split('/').map(word => word.length ? word[0].toUpperCase() + word.substring(1)
         : word).join(' ');
     }
     this.setTitle(newTitle);
