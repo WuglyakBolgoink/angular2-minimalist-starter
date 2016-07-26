@@ -93,7 +93,7 @@ module.exports = {
     new ForkCheckerPlugin(),
 
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['vendor', 'polyfills']
+      name: ['app', 'vendor', 'polyfills']
     }),
 
     new HtmlWebpackPlugin({
