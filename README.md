@@ -14,7 +14,7 @@
 * Core Directives
 * Custom Directives
 * Custom Pipes
-* Angular Material 2
+* Angular 2 Material
 
 > Development utilities:
 * Production ready
