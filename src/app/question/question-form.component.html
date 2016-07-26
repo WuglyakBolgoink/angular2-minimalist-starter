@@ -2,7 +2,7 @@
 
   <div class="form-group">
     <md-input placeholder="Title" [(ngModel)]="question.title" name="title" #title="ngModel"
-      required minlength="10" autofocus>  
+      required minlength="10" my-md-autofocus>  
     </md-input>
     <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
       Title is required and 10 characters at least
