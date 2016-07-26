@@ -1,11 +1,11 @@
-<form [formGroup]="myForm" (ngSubmit)="save(myForm.value)" novalidate>
+<form (ngSubmit)="onSubmit()" #myForm="ngForm">
 
   <div class="form-group">
-    <label for="questionTitle">Title</label>
-    <input formControlName="title" id="questionTitle" class="form-control" type="text" autofocus>
-    <span [hidden]="myForm.controls.title.valid || (myForm.controls.title.pristine && !submitted)" class="text-danger">
-            Title is required (minimum 5 characters).
-    </span>
+    <label for="title">Title</label>
+    <input [(ngModel)]="question.title" name="title" #title="ngModel" class="form-control" type="text" required autofocus>
+    <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+      Title is required
+    </div>
   </div>
 
   <button [disabled]="!myForm.valid" type="submit" class="btn btn-default">Submit</button>

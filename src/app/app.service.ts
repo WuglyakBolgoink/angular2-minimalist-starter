@@ -15,7 +15,7 @@ export class AppService {
     let newTitle = '';
     if (url !== '/') {
       newTitle += url.split('/').map(word => word.length ? word[0].toUpperCase() + word.substring(1)
-        : word).reverse().join(' ');
+        : word).join(' ');
     }
     this.setTitle(newTitle);
   }

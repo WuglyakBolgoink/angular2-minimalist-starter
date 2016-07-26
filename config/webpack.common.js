@@ -32,7 +32,8 @@ module.exports = {
     loaders: [
       {
         test: /\.ts$/,
-        loaders: ['ts', 'angular2-template-loader']
+        loaders: ['awesome-typescript-loader', 'angular2-template-loader'],
+        exclude: /\.(spec|e2e)\.ts$/
       },
       {
         test: /\.html$/,
@@ -57,7 +58,7 @@ module.exports = {
 
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['app', 'vendor', 'polyfills']
+      name: ['vendor', 'polyfills']
     }),
 
     new HtmlWebpackPlugin({

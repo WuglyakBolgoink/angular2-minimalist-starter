@@ -1,21 +1,27 @@
 import { provideRouter, RouterConfig }  from '@angular/router';
+import { QuestionComponent } from './question/question.component';
 import { QuestionListComponent } from './question/question-list.component';
 import { QuestionFormComponent } from './question/question-form.component';
+import { QuestionDetailComponent } from './question/question-detail.component';
 import { AboutComponent } from './about/about.component';
 
 const routes: RouterConfig = [
   {
     path: '',
-    redirectTo: 'questions',    
+    redirectTo: 'questions',
     pathMatch: 'full'
   },
   {
     path: 'questions',
     component: QuestionListComponent
-  },
+  }, 
   {
-    path: 'question/add',
+    path: 'questions/add',
     component: QuestionFormComponent
+  },      
+  {
+    path: 'question/:id',
+    component: QuestionDetailComponent
   },
   {
     path: 'question/:id/edit',
