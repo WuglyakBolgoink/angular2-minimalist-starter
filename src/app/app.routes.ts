@@ -1,5 +1,4 @@
 import { provideRouter, RouterConfig }  from '@angular/router';
-import { QuestionComponent } from './question/question.component';
 import { QuestionListComponent } from './question/question-list.component';
 import { QuestionFormComponent } from './question/question-form.component';
 import { QuestionDetailComponent } from './question/question-detail.component';
