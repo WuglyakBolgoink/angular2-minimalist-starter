@@ -7,27 +7,60 @@ const autoprefixer = require('autoprefixer');
 const helpers = require('./helpers');
 
 module.exports = {
+
   entry: {
     'polyfills': './src/polyfills.ts',
     'vendor': './src/vendor.ts',
     'app': './src/main.ts'
   },
 
+  /*
+   * Options affecting the resolving of modules.
+   *
+   * See: http://webpack.github.io/docs/configuration.html#resolve
+   */
   resolve: {
-    extensions: ['', '.js', '.ts']
+
+    /*
+     * An array of extensions that should be used to resolve modules.
+     *
+     * See: http://webpack.github.io/docs/configuration.html#resolve-extensions
+     */
+    extensions: ['', '.ts', '.js'],
+
+    // Make sure root is src
+    root: helpers.root('src'),
+
+    // remove other default values
+    modulesDirectories: ['node_modules'],
   },
 
   module: {
     preLoaders: [
       {
         test: /\.ts$/,
-        include: /src/,
         loader: 'tslint'
       },
       {
         test: /\s[a|c]ss$/,
-        include: /src/,
         loader: 'sasslint'
+      },
+      /*
+       * Source map loader support for *.js files
+       * Extracts SourceMaps for source files that as added as sourceMappingURL comment.
+       *
+       * See: https://github.com/webpack/source-map-loader
+       */
+      {
+        test: /\.js$/,
+        loader: 'source-map-loader',
+        exclude: [
+          // these packages have problems with their sourcemaps
+          helpers.root('node_modules/rxjs'),
+          helpers.root('node_modules/@angular'),
+          helpers.root('node_modules/@ngrx'),
+          helpers.root('node_modules/@angular2-material'),
+        ]
       }
     ],
     loaders: [
@@ -51,7 +84,6 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        include: helpers.root('src', 'app'),
         loader: 'raw!sass?sourceMap'
       }
     ]

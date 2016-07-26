@@ -50,6 +50,7 @@
     "rimraf": "^2.5.2",
     "sass-loader": "^4.0.0",
     "sasslint-loader": "0.0.1",
+    "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
     "tslint": "^3.13.0",
     "tslint-loader": "^2.1.5",
