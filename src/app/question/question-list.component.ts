@@ -3,7 +3,6 @@ import { AsyncPipe } from '@angular/common';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { MdButton } from '@angular2-material/button/button';
-import { MD_CARD_DIRECTIVES } from '@angular2-material/card/card';
 import { QuestionService } from './question.service';
 import { Question } from './question.model';
 
@@ -13,7 +12,7 @@ import { Question } from './question.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   pipes: [AsyncPipe],
-  directives: [ROUTER_DIRECTIVES, MD_CARD_DIRECTIVES, MdButton]
+  directives: [ROUTER_DIRECTIVES, MdButton]
 })
 export class QuestionListComponent implements OnInit {
 

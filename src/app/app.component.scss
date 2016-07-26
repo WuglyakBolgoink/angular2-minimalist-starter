@@ -2,13 +2,6 @@ body {
   margin: 0;
 }
 
-.ng-pristine {
-  border-left: 5px solid initial;
-}
-.ng-invalid.ng-dirty {
-  border-left: 5px solid #a94442;
-}
-
 my-app {
   display: block;
   padding: 1.0rem;

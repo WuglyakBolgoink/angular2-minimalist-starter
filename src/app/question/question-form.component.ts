@@ -1,6 +1,8 @@
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
 import { REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MdButton } from '@angular2-material/button/button';
+import { MdInput } from '@angular2-material/input/input';
 import { Autofocus } from '../directives/autofocus';
 import { Question } from './question.model';
 import { QuestionService } from './question.service';
@@ -10,7 +12,7 @@ import { QuestionService } from './question.service';
   selector: 'my-question-form',
   templateUrl: './question-form.component.html',
   encapsulation: ViewEncapsulation.None,
-  directives: [REACTIVE_FORM_DIRECTIVES, Autofocus]
+  directives: [REACTIVE_FORM_DIRECTIVES, MdButton, MdInput, Autofocus]
 })
 export class QuestionFormComponent implements OnInit {
 

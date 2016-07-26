@@ -1,15 +1,7 @@
-<md-card *ngFor="let question of questions | async">
+<div *ngFor="let question of questions | async">
 
-  <md-card-title>
-    <a [routerLink]="['/question', question.id]">{{question.title}}</a>
-  </md-card-title>
-  
-  <md-card-content>
-    {{question.description}}
-  </md-card-content>
+  <a [routerLink]="['/question', question.id]">{{question.title}}</a>
+  {{question.description}}
+  <button (click)="remove(question)" md-button>remove</button>
 
-  <md-card-actions>
-    <button (click)="remove(question)" md-button>remove</button>
-  </md-card-actions>
-
-</md-card>
+</div>
