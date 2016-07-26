@@ -26,7 +26,7 @@ describe('AppService', () => {
   }));
 
   it('inferTitleFromUrl() works', inject([AppService], (appService: AppService) => {
-    const newTitle = 'Add Question';
+    const newTitle = 'Question Add';
     appService.inferTitleFromUrl('question/add');
     expect(appService.getTitle()).toEqual(`${newTitle}${appService.titleSeparator}${appService.baseTitle}`);
   }));
