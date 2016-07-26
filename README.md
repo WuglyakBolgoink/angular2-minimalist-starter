@@ -19,9 +19,9 @@
 > Development utilities:
 * Production ready
 * Incremental Compilation for TypeScript files
-* TypeScript (almost) everywhere
 * Live-reload when the source-code changes
 * Static analysis linter for TypeScript
+* Static analysis linter for Sass
 * Karma setup
 * Example tests
 
