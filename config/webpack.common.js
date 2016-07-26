@@ -21,12 +21,12 @@ module.exports = {
     preLoaders: [
       {
         test: /\.ts$/,
-        exclude: /node_modules/,
+        include: /src/,
         loader: 'tslint'
       },
       {
         test: /\s[a|c]ss$/,
-        exclude: /node_modules/,
+        include: /src/,
         loader: 'sasslint'
       }
     ],
@@ -59,7 +59,7 @@ module.exports = {
 
   plugins: [
     new ForkCheckerPlugin(),
-    
+
     new webpack.optimize.CommonsChunkPlugin({
       name: ['vendor', 'polyfills']
     }),
