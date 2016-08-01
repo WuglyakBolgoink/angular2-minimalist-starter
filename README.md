@@ -8,7 +8,7 @@
 * Router
 * Component
 * Form
-* Dependence Injection
+* Dependency Injection
 * HTTP service
 * Observables
 * Core Directives
