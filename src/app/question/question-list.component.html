@@ -1,7 +1,7 @@
-<div *ngFor="let question of questions | async">
+<div *ngFor="let question of questions | async" class="item">
 
   <a [routerLink]="['/question', question.id]">{{question.title}}</a>
-  {{question.description}}
-  <button (click)="remove(question)" md-button>remove</button>
+  {{question.text}}
+  <button (click)="remove(question)" class="btn btn-default btn-sm">remove</button>
 
 </div>

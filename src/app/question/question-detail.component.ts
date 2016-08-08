@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, ViewEncapsulation } from '@angular/core';
 import { ROUTER_DIRECTIVES, ActivatedRoute } from '@angular/router';
-import { QuestionService } from './question.service';
-import { Question } from './question.model';
+import { QuestionService } from '../shared/services';
+import { Question } from '../shared/interfaces';
 
 @Component({
   selector: 'my-question-detail',

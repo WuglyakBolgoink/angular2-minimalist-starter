@@ -5,8 +5,7 @@ import { HTTP_PROVIDERS } from '@angular/http';
 import { disableDeprecatedForms, provideForms } from '@angular/forms';
 import { AppComponent } from './app/app.component';
 import { appRouterProviders } from './app/app.routes';
-import { AppService } from './app/app.service';
-import { QuestionService } from './app/question/question.service';
+import { AppService, QuestionService } from './app/shared/services';
 
 if (process.env.ENV === 'production') {
   enableProdMode();

@@ -2,18 +2,15 @@ body {
   margin: 0;
 }
 
-my-app {
+my-app,
+my-menu {
   display: block;
-  padding: 1.0rem;
 }
 
-.my-menu {
-  display: block;
-  margin-bottom: 1.0rem;
-  > a {
-    display: inline-block;
-    &.active {
-      color: #0000ff;
-    }
-  }
+.main-container {
+  padding-top: .7rem;
+}
+
+.item {
+  margin-bottom: .6rem;
 }

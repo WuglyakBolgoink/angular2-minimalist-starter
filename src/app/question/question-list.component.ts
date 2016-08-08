@@ -2,9 +2,8 @@ import { Component, ChangeDetectionStrategy, ViewEncapsulation, OnInit } from '@
 import { AsyncPipe } from '@angular/common';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { MdButton } from '@angular2-material/button/button';
-import { QuestionService } from './question.service';
-import { Question } from './question.model';
+import { QuestionService } from '../shared/services';
+import { Question } from '../shared/interfaces';
 
 @Component({
   selector: 'my-question-list',
@@ -12,7 +11,7 @@ import { Question } from './question.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   pipes: [AsyncPipe],
-  directives: [ROUTER_DIRECTIVES, MdButton]
+  directives: [ROUTER_DIRECTIVES]
 })
 export class QuestionListComponent implements OnInit {
 

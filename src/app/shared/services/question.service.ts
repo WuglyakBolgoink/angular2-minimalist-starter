@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Question } from './question.model';
+import { Question } from '../interfaces';
 
 @Injectable()
 export class QuestionService {
 
   private items: Question[] = [
-    {id: '1', title: 'Any title 1', description: 'Any description 1'},
-    {id: '2', title: 'Any title 2', description: 'Any description 2'}
+    {id: '1', title: 'Any title 1', text: 'Any description 1'},
+    {id: '2', title: 'Any title 2', text: 'Any description 2'}
   ];
 
   constructor(private http: Http) { }

@@ -1,13 +1,5 @@
-<nav class="my-menu">
-  <a [routerLink]="['/questions']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-    Questions
-  </a>
-  <a [routerLink]="['/questions/add']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-    Add Question
-  </a>
-  <a [routerLink]="['/about']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-    About
-  </a>
-</nav>
+<my-menu></my-menu>
 
-<router-outlet></router-outlet>
+<div class="main-container container-fluid">
+  <router-outlet></router-outlet>
+</div>
